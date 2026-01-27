@@ -46,18 +46,18 @@
                 <!-- Actions -->
                 <div class="d-flex justify-content-between mt-4">
                     <a class="btn btn-secondary" th:href="@{/students}">
-                        ⬅ Quay lại danh sách
+                        Quay lại danh sách
                     </a>
 
                     <div class="d-flex gap-2">
                         <a class="btn btn-warning" th:href="@{'/students/' + ${student.id} + '/edit'}">
-                            ✏ Sửa
+                            Sửa
                         </a>
 
                         <form th:action="@{'/students/' + ${student.id} + '/delete'}" method="post"
                             th:onsubmit="return confirm('Bạn có chắc chắn muốn xóa sinh viên này không?');">
                             <button type="submit" class="btn btn-danger">
-                                🗑 Xóa
+                                Xóa
                             </button>
                         </form>
                     </div>

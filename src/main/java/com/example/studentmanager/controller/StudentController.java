@@ -6,11 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.studentmanager.entities.Student;
 import com.example.studentmanager.service.StudentService;
+
+import org.springframework.http.ResponseEntity;
+import java.util.List;
 
 @Controller
 @RequestMapping("/students")
@@ -19,11 +21,19 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    // LIST ALL STUDENTS
+    // LIST ALL STUDENTS (VIEW)
     @GetMapping
     public String listStudents(Model model) {
         model.addAttribute("students", studentService.getAllStudents());
         return "students";
+    }
+
+    // API: GET ALL STUDENTS AS JSON
+    @GetMapping("/api")
+    @ResponseBody
+    public ResponseEntity<List<Student>> getAllStudentsApi() {
+        List<Student> students = studentService.getAllStudents();
+        return ResponseEntity.ok(students);
     }
 
     // VIEW STUDENT DETAILS

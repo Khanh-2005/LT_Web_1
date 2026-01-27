@@ -15,11 +15,11 @@
 
         <!-- Title -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="fw-bold">📋 Danh sách sinh viên</h3>
+            <h3 class="fw-bold"> Danh sách sinh viên</h3>
 
             <!-- Add student -->
             <a class="btn btn-primary" th:href="@{/students/new}">
-                ➕ Thêm sinh viên
+                Thêm sinh viên
             </a>
         </div>
 
@@ -31,7 +31,7 @@
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-success w-100">
-                    🔍 Tìm kiếm
+                    Tìm kiếm
                 </button>
             </div>
         </form>
@@ -39,59 +39,74 @@
         <!-- Table -->
         <div class="card shadow-sm">
             <div class="card-body p-0">
-                <table class="table table-striped table-hover mb-0 align-middle text-center">
-                    <thead class="table-dark">
+                <!-- Table -->
+                <div class="card shadow-sm">
+                    <div class="card-body p-0">
+                        <table class="table table-striped table-hover mb-0 align-middle text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Họ tên</th>
+                                    <th>Tuổi</th>
+                                    <th>Email</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentTableBody">
+                                <!-- Dữ liệu sẽ được load bằng JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- JavaScript để fetch API -->
+            <script>
+                async function loadStudents() {
+                    try {
+                        const response = await fetch('/students/api');
+                        if (!response.ok) {
+                            throw new Error('Lỗi khi tải dữ liệu');
+                        }
+                        const students = await response.json();
+                        const tbody = document.getElementById('studentTableBody');
+                        tbody.innerHTML = '';
+
+                        if (students.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="5" class="text-muted py-4">Không có sinh viên nào</td></tr>';
+                            return;
+                        }
+
+                        students.forEach(sv => {
+                            const row = `
                         <tr>
-                            <th>ID</th>
-                            <th>Họ tên</th>
-                            <th>Tuổi</th>
-                            <th>Email</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="sv : ${students}">
-                            <td th:text="${sv.id}"></td>
-                            <td th:text="${sv.name}"></td>
-                            <td th:text="${sv.age}"></td>
-                            <td th:text="${sv.email}"></td>
+                            <td>${sv.id}</td>
+                            <td>${sv.name}</td>
+                            <td>${sv.age}</td>
+                            <td>${sv.email}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
-
-                                    <a class="btn btn-sm btn-info text-white" th:href="@{'/students/' + ${sv.id}}">
-                                        👁 Xem
-                                    </a>
-
-                                    <a class="btn btn-sm btn-warning" th:href="@{'/students/' + ${sv.id} + '/edit'}">
-                                        ✏ Sửa
-                                    </a>
-
-                                    <form th:action="@{'/students/' + ${sv.id} + '/delete'}" method="post"
-                                        th:onsubmit="return confirm('Bạn có chắc chắn muốn xóa sinh viên này không?');">
-                                        <button type="submit" class="btn btn-sm btn-danger">
-                                            🗑 Xóa
-                                        </button>
+                                    <a class="btn btn-sm btn-info text-white" href="/students/${sv.id}"> Xem</a>
+                                    <a class="btn btn-sm btn-warning" href="/students/${sv.id}/edit"> Sửa</a>
+                                    <form action="/students/${sv.id}/delete" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sinh viên này không?');" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger"> Xóa</button>
                                     </form>
-
                                 </div>
                             </td>
                         </tr>
+                    `;
+                            tbody.innerHTML += row;
+                        });
+                    } catch (error) {
+                        console.error('Lỗi:', error);
+                        document.getElementById('studentTableBody').innerHTML = '<tr><td colspan="5" class="text-danger py-4">Lỗi tải dữ liệu</td></tr>';
+                    }
+                }
 
-                        <!-- No data -->
-                        <tr th:if="${#lists.isEmpty(students)}">
-                            <td colspan="5" class="text-muted py-4">
-                                Không có sinh viên nào
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                // Load dữ liệu khi trang tải
+                document.addEventListener('DOMContentLoaded', loadStudents);
+            </script>
 </body>
 
 </html>
