@@ -122,4 +122,12 @@ public class StudentController {
         return "student_details"; // view chi tiết 1 sinh viên
     }
 
+    // API: SEARCH STUDENTS BY ID
+    @GetMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<Student> getStudentByIdApi(@PathVariable Integer id) {
+        Student student = studentService.getStudentById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + id));
+        return ResponseEntity.ok(student);
+    }
 }
