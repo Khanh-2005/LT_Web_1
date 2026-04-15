@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <title>Quản Lý Lớp Đào Tạo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+    <!--end::Accessibility Meta Tags-->
+    <!--begin::Primary Meta Tags-->
+    <meta name="title" content="AdminLTE | Dashboard v2" />
+    <meta name="author" content="ColorlibHQ" />
+    <meta name="description"
+        content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance." />
+    <meta name="keywords"
+        content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard, accessible admin panel, WCAG compliant" />
+    <!--end::Primary Meta Tags-->
+    <!--begin::Accessibility Features-->
+    <!-- Skip links will be dynamically added by accessibility.js -->
+    <meta name="supported-color-schemes" content="light dark" />
+    <link rel="preload" href="./css/adminlte.css" as="style" />
+    <!--end::Accessibility Features-->
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+        integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" media="print"
+        onload="this.media='all'" />
+    <!--end::Fonts-->
+    <!--begin::Third Party Plugin(OverlayScrollbars)-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
+        crossorigin="anonymous" />
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!--end::Third Party Plugin(OverlayScrollbars)-->
+    <!--begin::Third Party Plugin(Bootstrap Icons)-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        crossorigin="anonymous" />
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--end::Third Party Plugin(Bootstrap Icons)-->
+    <!--begin::Required Plugin(AdminLTE)-->
+    <link rel="stylesheet" href="./css/adminlte.css" />
+    <!-- AdminLTE 4 -->
+    <link href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/css/adminlte.min.css" rel="stylesheet">
+    <!--end::Required Plugin(AdminLTE)-->
+    <!-- apexcharts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
+        integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
+    <style>
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+        <!-- Navbar -->
+        <!--begin::Header-->
+        <nav class="app-header navbar navbar-expand bg-body">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Start Navbar Links-->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                            <i class="bi bi-list"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Home</a></li>
+                    <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
+                </ul>
+                <!--end::Start Navbar Links-->
+                <!--begin::End Navbar Links-->
+                <ul class="navbar-nav ms-auto">
+                    <!--begin::Navbar Search-->
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                            <i class="bi bi-search"></i>
+                        </a>
+                    </li>
+                    <!--end::Navbar Search-->
+                    <!--begin::Messages Dropdown Menu-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-bs-toggle="dropdown" href="#">
+                            <i class="bi bi-chat-text"></i>
+                            <span class="navbar-badge badge text-bg-danger">3</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <a href="#" class="dropdown-item">
+                                <!--begin::Message-->
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <img src="./assets/img/user1-128x128.jpg" alt="User Avatar"
+                                            class="img-size-50 rounded-circle me-3" />
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h3 class="dropdown-item-title">
+                                            Brad Diesel
+                                            <span class="float-end fs-7 text-danger"><i
+                                                    class="bi bi-star-fill"></i></span>
+                                        </h3>
+                                        <p class="fs-7">Call me whenever you can...</p>
+                                        <p class="fs-7 text-secondary">
+                                            <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
+                                        </p>
+                                    </div>
+                                </div>
+                                <!--end::Message-->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <!--begin::Message-->
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <img src="./assets/img/user8-128x128.jpg" alt="User Avatar"
+                                            class="img-size-50 rounded-circle me-3" />
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h3 class="dropdown-item-title">
+                                            John Pierce
+                                            <span class="float-end fs-7 text-secondary">
+                                                <i class="bi bi-star-fill"></i>
+                                            </span>
+                                        </h3>
+                                        <p class="fs-7">I got your message bro</p>
+                                        <p class="fs-7 text-secondary">
+                                            <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
+                                        </p>
+                                    </div>
+                                </div>
+                                <!--end::Message-->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <!--begin::Message-->
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <img src="./assets/img/user3-128x128.jpg" alt="User Avatar"
+                                            class="img-size-50 rounded-circle me-3" />
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h3 class="dropdown-item-title">
+                                            Nora Silvester
+                                            <span class="float-end fs-7 text-warning">
+                                                <i class="bi bi-star-fill"></i>
+                                            </span>
+                                        </h3>
+                                        <p class="fs-7">The subject goes here</p>
+                                        <p class="fs-7 text-secondary">
+                                            <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
+                                        </p>
+                                    </div>
+                                </div>
+                                <!--end::Message-->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                        </div>
+                    </li>
+                    <!--end::Messages Dropdown Menu-->
+                    <!--begin::Notifications Dropdown Menu-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-bs-toggle="dropdown" href="#">
+                            <i class="bi bi-bell-fill"></i>
+                            <span class="navbar-badge badge text-bg-warning">15</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <span class="dropdown-item dropdown-header">15 Notifications</span>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="bi bi-envelope me-2"></i> 4 new messages
+                                <span class="float-end text-secondary fs-7">3 mins</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="bi bi-people-fill me-2"></i> 8 friend requests
+                                <span class="float-end text-secondary fs-7">12 hours</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
+                                <span class="float-end text-secondary fs-7">2 days</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
+                        </div>
+                    </li>
+                    <!--end::Notifications Dropdown Menu-->
+                    <!--begin::Fullscreen Toggle-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+                            <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                            <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
+                        </a>
+                    </li>
+                    <!--end::Fullscreen Toggle-->
+                    <!--begin::User Menu Dropdown-->
+                    <li class="nav-item dropdown user-menu">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img src="./assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow"
+                                alt="User Image" />
+                            <span class="d-none d-md-inline">Alexander Pierce</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <!--begin::User Image-->
+                            <li class="user-header text-bg-primary">
+                                <img src="./assets/img/user2-160x160.jpg" class="rounded-circle shadow"
+                                    alt="User Image" />
+                                <p>
+                                    Alexander Pierce - Web Developer
+                                    <small>Member since Nov. 2023</small>
+                                </p>
+                            </li>
+                            <!--end::User Image-->
+                            <!--begin::Menu Body-->
+                            <li class="user-body">
+                                <!--begin::Row-->
+                                <div class="row">
+                                    <div class="col-4 text-center"><a href="#">Followers</a></div>
+                                    <div class="col-4 text-center"><a href="#">Sales</a></div>
+                                    <div class="col-4 text-center"><a href="#">Friends</a></div>
+                                </div>
+                                <!--end::Row-->
+                            </li>
+                            <!--end::Menu Body-->
+                            <!--begin::Menu Footer-->
+                            <li class="user-footer">
+                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                            </li>
+                            <!--end::Menu Footer-->
+                        </ul>
+                    </li>
+                    <!--end::User Menu Dropdown-->
+                </ul>
+                <!--end::End Navbar Links-->
+            </div>
+            <!--end::Container-->
+        </nav>
+        <!--end::Header-->
+
+        <!-- Sidebar -->
+        <!--begin::Sidebar-->
+        <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+            <div class="sidebar-brand">
+                <a href="./dashboard.html" class="brand-link">
+                    <img src="./assets/img/AdminLTELogo.png" class="brand-image opacity-75 shadow" />
+                    <span class="brand-text fw-light">Quản lý đào tạo</span>
+                </a>
+            </div>
+
+            <div class="sidebar-wrapper">
+                <nav class="mt-2">
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" data-accordion="false">
+
+                        <!-- DASHBOARD -->
+                        <li class="nav-item">
+                            <a href="./dashboard.html" class="nav-link active">
+                                <i class="nav-icon bi bi-speedometer"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+
+                        <!-- N1 USER -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-people"></i>
+                                <p>User & Auth <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./users.html" class="nav-link">
+                                        <p>Users</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./roles.html" class="nav-link">
+                                        <p>Roles</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./permissions.html" class="nav-link">
+                                        <p>Permissions</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./user_roles.html" class="nav-link">
+                                        <p>User Roles</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N2 STUDENT -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-mortarboard"></i>
+                                <p>Student <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./students.html" class="nav-link">
+                                        <p>Students</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./student_profiles.html" class="nav-link">
+                                        <p>Profiles</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./student_classes.html" class="nav-link">
+                                        <p>Classes</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N3 EMPLOYEE -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-person-badge"></i>
+                                <p>Employee <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./employees.html" class="nav-link">
+                                        <p>Employees</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./departments.html" class="nav-link">
+                                        <p>Departments</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./positions.html" class="nav-link">
+                                        <p>Positions</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N4 PROGRAM -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-book"></i>
+                                <p>Program & Course <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./training_programs.html" class="nav-link">
+                                        <p>Training Programs</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./courses.html" class="nav-link">
+                                        <p>Courses</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./majors.html" class="nav-link">
+                                        <p>Majors</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N5 SEMESTER -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-calendar"></i>
+                                <p>Semester <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./school_years.html" class="nav-link">
+                                        <p>School Years</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./semesters.html" class="nav-link">
+                                        <p>Semesters</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./course_sections.html" class="nav-link">
+                                        <p>Course Sections</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N6 ENROLLMENT -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-pencil-square"></i>
+                                <p>Enrollment <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./registration_periods.html" class="nav-link">
+                                        <p>Registration Periods</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./course_registrations.html" class="nav-link">
+                                        <p>Course Registrations</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N7 SCHEDULE -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-clock"></i>
+                                <p>Schedule & Room <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./schedule.html" class="nav-link">
+                                        <p>Schedule</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./rooms.html" class="nav-link">
+                                        <p>Rooms</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./buildings.html" class="nav-link">
+                                        <p>Buildings</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N8 GRADES -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-journal-check"></i>
+                                <p>Grades <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./grade_components.html" class="nav-link">
+                                        <p>Grade Components</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./student_component_grades.html" class="nav-link">
+                                        <p>Student Grades</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./grade_scales.html" class="nav-link">
+                                        <p>Grade Scales</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N9 FINANCE -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-cash"></i>
+                                <p>Finance <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./tuition.html" class="nav-link">
+                                        <p>Tuition</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./student_tuitions.html" class="nav-link">
+                                        <p>Student Tuitions</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./payments.html" class="nav-link">
+                                        <p>Payments</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N10 EXAM -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-file-earmark-text"></i>
+                                <p>Exam <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./exams.html" class="nav-link">
+                                        <p>Exams</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./exam_types.html" class="nav-link">
+                                        <p>Exam Types</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./exam-rooms.html" class="nav-link">
+                                        <p>Exam Rooms</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./exam_results.html" class="nav-link">
+                                        <p>Exam Results</p>
+                                    </a></li>
+
+                            </ul>
+                        </li>
+
+                        <!-- N11 GRADUATION -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-mortarboard"></i>
+                                <p>Graduation <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./graduation_conditions.html" class="nav-link">
+                                        <p>Graduation Conditions</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./graduation_results.html" class="nav-link">
+                                        <p>Graduation Results</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N12 SYSTEM -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-gear"></i>
+                                <p>System <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./notifications.html" class="nav-link">
+                                        <p>Notifications</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./settings.html" class="nav-link">
+                                        <p>Settings</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./logs.html" class="nav-link">
+                                        <p>Logs</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N13 EMAIL & CONTACT -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-envelope"></i>
+                                <p>Email & Contact <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./email_templates.html" class="nav-link">
+                                        <p>Email Templates</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./email_achievements.html" class="nav-link">
+                                        <p>Email Achievements</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./email_log.html" class="nav-link">
+                                        <p>Email Log</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!--end::Sidebar-->
+
+        <main class="app-main p-3">
+            <!-- Cards -->
+            <div class="row my-3">
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white p-3">
+                        <h3 id="totalCourses">0</h3>
+                        <p>Tổng Môn Học</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-danger text-white p-3">
+                        <h3 id="totalClasses">0</h3>
+                        <p>Tổng Lớp Học Phần</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-success text-white p-3">
+                        <h3 id="activeClasses">0</h3>
+                        <p>Lớp Đang Dạy</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white p-3">
+                        <h3 id="inactiveClasses">0</h3>
+                        <p>Lớp Đã Kết Thúc</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5>Danh Sách Lớp Học Phần</h5>
+                    <div class="d-flex align-items-center gap-2 ms-auto">
+                        <input type="text" id="searchInput" class=" form-control search-input" placeholder="Search"
+                            style="width: 800px; margin-right: 50px;">
+                        <button class="btn btn-warning">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <button class="btn btn-primary" onclick="addClass()">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter -->
+                <div class="card-body">
+                    <div class="row mb-3 align-items-end">
+                        <div class="col-md-2">
+                            <label class="form-label">Mã Lớp</label>
+                            <select class="form-select" id="courseFilter">
+                                <option value="">Chọn mã lớp</option>
+                                <option value="IT301-01">IT301-01</option>
+                                <option value="IT303-01">IT303-01</option>
+                                <option value="I402-01">I402-01</option>
+                                <option value="IT102-01">IT102-01</option>
+                                <option value="IT401-01">IT401-01</option>
+                                <option value="IT202-01">IT202-01</option>
+                                <option value="IT302-01">IT302-01</option>
+                                <option value="IT201-01">IT201-01</option>
+                                <option value="AI102-02">AI102-02</option>
+                                <option value="IT304-01">IT304-01</option>
+                                <option value="IT101-01">IT101-01</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label"> Năm Học</label>
+                            <select class="form-select">
+                                <option>Chọn năm học</option>
+                                <option value="2022-2023">2022-2023</option>
+                                <option value="2023-2024">2023-2024</option>
+                                <option value="2024-2025">2024-2025</option>
+                                <option value="2025-2026">2025-2026</option>
+                                <option value="2026-2027">2026-2027</option>
+                                <option value="2027-2028">2027-2028</option>
+                                <option value="2028-2029">2028-2029</option>
+                                <option value="2029-2030">2029-2030</option>
+                                <option value="2030-2031">2030-2031</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Ghi Chú</label>
+                            <input type="text" class="form-control" placeholder="Nhập ghi chú">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Loại Lớp</label>
+                            <select class="form-select" id="semesterFilter">
+                                <option value="">Chọn loại lớp</option>
+                                <option value="theory">theory</option>
+                                <option value="hybrid">hybrid</option>
+                                <option value="lab">lab</option>
+                                <option value="thesis">thesis</option>
+                                <option value="internship">internship</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Trạng Thái</label>
+                            <select class="form-select" id="statusFilter">
+                                <option value="">Chọn trạng thái</option>
+                                <option value="open">open</option>
+                                <option value="close">close</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex justify-content-end">
+                            <button class="btn btn-outline-secondary" onclick="applyFilters()">
+                                <i class="fa fa-filter"></i> Lọc
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <table class="table table-striped table-hover" id="courseClassesTable">
+                    <thead>
+                        <tr>
+                            <th>Mã Lớp</th>
+                            <th>Năm Học</th>
+                            <th>Sỉ Số Tối Đa</th>
+                            <th>Sỉ Số Tối Thiểu</th>
+                            <th>Loại Lớp</th>
+                            <th>Ghi Chú</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courseSectionTable">
+                        <!-- Content populated by JavaScript -->
+                    </tbody>
+                </table>
+                <!-- PAGINATION for list course class -->
+                <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-1">
+                    <ul class="pagination" style="gap: 8px;">
+                        <li class="page-item"><a class="page-link">Previous</a></li>
+                        <li class="page-item"><a class="page-link">1</a></li>
+                        <li class="page-item"><a class="page-link">2</a></li>
+                        <li class="page-item"><a class="page-link">3</a></li>
+                        <li class="page-item"><a class="page-link">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+
+        <!-- Modal for Add/Edit Course Class -->
+        <div class="modal fade" id="courseClassModal" tabindex="-1" aria-labelledby="courseClassModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="courseClassModalLabel">Thêm/Sửa Lớp Học Phần</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="courseClassForm">
+                            <input type="hidden" id="classId">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="courseSelect" class="form-label">Mã Lớp</label>
+                                    <select class="form-select" id="courseSelect" required>
+                                        <option value="">Chọn mã lớp</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="semesterSelect" class="form-label">Năm Học</label>
+                                    <select class="form-select" id="semesterSelect" required>
+                                        <option value="">Chọn năm học</option>
+                                        <option value="2022-2023">2022-2023</option>
+                                        <option value="2023-2024">2023-2024</option>
+                                        <option value="2024-2025">2024-2025</option>
+                                        <option value="2025-2026">2025-2026</option>
+                                        <option value="2026-2027">2026-2027</option>
+                                        <option value="2027-2028">2027-2028</option>
+                                        <option value="2028-2029">2028-2029</option>
+                                        <option value="2029-2030">2029-2030</option>
+                                        <option value="2030-2031">2030-2031</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="instructor" class="form-label">Ghi Chú</label>
+                                    <input type="text" class="form-control" id="instructor" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="classType" class="form-label">Loại Lớp</label>
+                                    <select class="form-select" id="classType" required>
+                                        <option value="">Chọn loại lớp</option>
+                                        <option value="theory">theory</option>
+                                        <option value="hybrid">hybrid</option>
+                                        <option value="lab">lab</option>
+                                        <option value="thesis">thesis</option>
+                                        <option value="internship">internship</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="maxStudent" class="form-label">Sĩ Số Tối Đa</label>
+                                    <input type="number" class="form-control" id="maxStudent">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="minStudent" class="form-label">Sĩ Số Tối Thiểu</label>
+                                    <input type="number" class="form-control" id="minStudent">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="status" class="form-label">Trạng Thái</label>
+                                    <select class="form-select" id="status">
+                                        <option value="open">open</option>
+                                        <option value="close">close</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-primary" onclick="saveCourseClass()">Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-center">&copy; AdminLTE.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/js/adminlte.min.js"></script>
+
+    <script>
+        const API_URL = "http://localhost:8080/api/course-sections";
+
+        async function loadCourseClasses() {
+            try {
+                const res = await fetch(API_URL);
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+
+                const data = await res.json();
+                let html = "";
+
+                data.forEach(s => {
+                    html += `
+                    <tr>
+                        <td>${s.code ?? ""}</td>
+                        <td>${s.academicYear ?? ""}</td>
+                        <td>${s.maxStudents ?? ""}</td>
+                        <td>${s.minStudents ?? ""}</td>
+                        <td>${s.classType ?? ""}</td>
+                        <td>${s.note ?? ""}</td>
+                        <td>${s.status ?? ""}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editCourseSection('${s.id}')">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCourseSection('${s.id}')">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                });
+
+                document.getElementById("courseSectionTable").innerHTML = html || `
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">Khong co du lieu</td>
+                    </tr>
+                `;
+            } catch (error) {
+                console.error("Khong load duoc danh sach lop hoc phan:", error);
+                document.getElementById("courseSectionTable").innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center text-danger">Khong the tai du lieu</td>
+                    </tr>
+                `;
+            }
+        }
+
+        function addClass() {
+            const modalElement = document.getElementById("courseClassModal");
+            const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+            modal.show();
+        }
+
+        function applyFilters() {
+            loadCourseClasses();
+        }
+
+        function editCourseSection(id) {
+            console.log("Chua noi form sua cho lop hoc phan:", id);
+        }
+
+        async function deleteCourseSection(id) {
+            if (!confirm("Ban co chac muon xoa lop hoc phan nay?")) return;
+
+            await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+            loadCourseClasses();
+        }
+
+        function saveCourseClass() {
+            console.log("Chua noi chuc nang luu lop hoc phan");
+        }
+
+        loadCourseClasses();
+    </script>
+
+</html>
