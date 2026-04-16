@@ -28,34 +28,47 @@ public class CourseSectionsController {
         this.service = service;
     }
 
+    // 1. Get all course sections
     @GetMapping
     public List<CourseSections> getAll() {
         return service.getAll();
     }
 
+    // 2. Get course section by ID
     @GetMapping("/{id}")
     public CourseSections getById(@PathVariable UUID id) {
         return service.getById(id);
     }
 
+    // 3. Create new course section
     @PostMapping
     public CourseSections create(@RequestBody CourseSections courseSection) {
         return service.create(courseSection);
     }
 
+    // 4. Update existing course section
     @PutMapping("/{id}")
     public CourseSections update(@PathVariable UUID id, @RequestBody CourseSections courseSection) {
         return service.update(id, courseSection);
     }
 
+    // 5. Soft delete course section
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
-        service.delete(id);
+    public void softDelete(@PathVariable UUID id) {
+        service.softDelete(id);
     }
 
+    // 6. Search course section
     @GetMapping("/search")
-    public List<CourseSections> search(@RequestParam String fullname) {
-        return service.search(fullname);
+    public List<CourseSections> search(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String code,
+            @RequestParam(required = false) String academicYear,
+            @RequestParam(required = false) Integer maxStudents,
+            @RequestParam(required = false) Integer minStudents,
+            @RequestParam(required = false) String classType,
+            @RequestParam(required = false) String status) {
+        return service.search(keyword, code, academicYear, maxStudents, minStudents, classType, status);
     }
 
 }

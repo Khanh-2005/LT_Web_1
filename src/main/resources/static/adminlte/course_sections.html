@@ -556,7 +556,7 @@
                     <div class="d-flex align-items-center gap-2 ms-auto">
                         <input type="text" id="searchInput" class=" form-control search-input" placeholder="Search"
                             style="width: 800px; margin-right: 50px;">
-                        <button class="btn btn-warning">
+                        <button class="btn btn-warning" onclick="applyFilters()">
                             <i class="fa fa-search"></i>
                         </button>
                         <button class="btn btn-primary" onclick="addClass()">
@@ -587,7 +587,7 @@
                         </div>
                         <div class="col-md-2">
                             <label class="form-label"> Năm Học</label>
-                            <select class="form-select">
+                            <select class="form-select" id="academicYearFilter">
                                 <option>Chọn năm học</option>
                                 <option value="2022-2023">2022-2023</option>
                                 <option value="2023-2024">2023-2024</option>
@@ -759,43 +759,182 @@
     <script>
         const API_URL = "http://localhost:8080/api/course-sections";
 
-        async function loadCourseClasses() {
+        function getAcademicYearFilter() {
+            return document.querySelector('.card-body .row .col-md-2:nth-child(2) select');
+        }
+
+        function getNoteFilter() {
+            return document.querySelector('.card-body .row .col-md-2:nth-child(3) input');
+        }
+
+        function getClassTypeFilter() {
+            return document.getElementById("semesterFilter");
+        }
+
+        function parseInteger(value) {
+            if (value === null || value === undefined || value === "") {
+                return null;
+            }
+
+            const parsed = Number.parseInt(value, 10);
+            return Number.isNaN(parsed) ? null : parsed;
+        }
+
+        function normalizeFilterValue(value) {
+            const normalized = String(value ?? "").trim();
+
+            if (!normalized) {
+                return "";
+            }
+
+            const lower = normalized.toLowerCase();
+            if (lower.startsWith("ch") || lower.startsWith("nh")) {
+                return "";
+            }
+
+            return normalized;
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? "")
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#39;");
+        }
+
+        function updateStats(data) {
+            const uniqueCourses = new Set(data.map(item => item.code).filter(Boolean));
+            const activeCount = data.filter(item => (item.status ?? "").toLowerCase() === "open").length;
+
+            document.getElementById("totalCourses").textContent = uniqueCourses.size;
+            document.getElementById("totalClasses").textContent = data.length;
+            document.getElementById("activeClasses").textContent = activeCount;
+            document.getElementById("inactiveClasses").textContent = data.length - activeCount;
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById("courseSectionTable");
+
+            if (!data.length) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">Khong co du lieu</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = data.map(item => `
+                <tr>
+                    <td>${escapeHtml(item.code)}</td>
+                    <td>${escapeHtml(item.academicYear)}</td>
+                    <td>${escapeHtml(item.maxStudents)}</td>
+                    <td>${escapeHtml(item.minStudents)}</td>
+                    <td>${escapeHtml(item.classType)}</td>
+                    <td>${escapeHtml(item.note)}</td>
+                    <td>${escapeHtml(item.status)}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editCourseSection('${item.id}')">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteCourseSection('${item.id}')">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join("");
+        }
+
+        function getFilterParams() {
+            const params = new URLSearchParams();
+            const keyword = document.getElementById("searchInput").value.trim();
+            const code = normalizeFilterValue(document.getElementById("courseFilter").value);
+            const academicYear = normalizeFilterValue(getAcademicYearFilter().value);
+            const note = normalizeFilterValue(getNoteFilter().value);
+            const classType = normalizeFilterValue(getClassTypeFilter().value);
+            const status = normalizeFilterValue(document.getElementById("statusFilter").value);
+
+            if (keyword || note) {
+                params.set("keyword", [keyword, note].filter(Boolean).join(" ").trim());
+            }
+            if (code) {
+                params.set("code", code);
+            }
+            if (academicYear) {
+                params.set("academicYear", academicYear);
+            }
+            if (classType) {
+                params.set("classType", classType);
+            }
+            if (status) {
+                params.set("status", status);
+            }
+
+            return params;
+        }
+
+        function populateCodeOptions(data) {
+            const courseFilter = document.getElementById("courseFilter");
+            const courseSelect = document.getElementById("courseSelect");
+            const selectedFilter = courseFilter.value;
+            const selectedForm = courseSelect.value;
+            const baseCodes = Array.from(courseFilter.options).map(option => option.value).filter(Boolean);
+            const fetchedCodes = data.map(item => item.code).filter(Boolean);
+            const codes = [...new Set([...baseCodes, ...fetchedCodes])].sort();
+            const options = ['<option value="">Chọn mã lớp</option>']
+                .concat(codes.map(code => `<option value="${escapeHtml(code)}">${escapeHtml(code)}</option>`))
+                .join("");
+
+            courseFilter.innerHTML = options;
+            courseSelect.innerHTML = options;
+            courseFilter.value = codes.includes(selectedFilter) ? selectedFilter : "";
+            courseSelect.value = codes.includes(selectedForm) ? selectedForm : "";
+        }
+
+        function resetForm() {
+            document.getElementById("courseClassForm").reset();
+            document.getElementById("classId").value = "";
+            document.getElementById("courseClassModalLabel").textContent = "Them lop hoc phan";
+            document.getElementById("status").value = "open";
+        }
+
+        function getPayload() {
+            return {
+                code: document.getElementById("courseSelect").value.trim(),
+                academicYear: document.getElementById("semesterSelect").value.trim(),
+                note: document.getElementById("instructor").value.trim(),
+                classType: document.getElementById("classType").value.trim(),
+                maxStudents: parseInteger(document.getElementById("maxStudent").value),
+                minStudents: parseInteger(document.getElementById("minStudent").value),
+                status: document.getElementById("status").value.trim(),
+                isActive: document.getElementById("status").value.trim().toLowerCase() === "open"
+            };
+        }
+
+        function openModal() {
+            bootstrap.Modal.getOrCreateInstance(document.getElementById("courseClassModal")).show();
+        }
+
+        function closeModal() {
+            bootstrap.Modal.getOrCreateInstance(document.getElementById("courseClassModal")).hide();
+        }
+
+        async function loadCourseClasses(useSearch = false) {
             try {
-                const res = await fetch(API_URL);
+                const params = getFilterParams();
+                const url = useSearch && params.toString() ? `${API_URL}/search?${params.toString()}` : API_URL;
+                const res = await fetch(url);
+
                 if (!res.ok) {
                     throw new Error(`HTTP ${res.status}`);
                 }
 
                 const data = await res.json();
-                let html = "";
-
-                data.forEach(s => {
-                    html += `
-                    <tr>
-                        <td>${s.code ?? ""}</td>
-                        <td>${s.academicYear ?? ""}</td>
-                        <td>${s.maxStudents ?? ""}</td>
-                        <td>${s.minStudents ?? ""}</td>
-                        <td>${s.classType ?? ""}</td>
-                        <td>${s.note ?? ""}</td>
-                        <td>${s.status ?? ""}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="editCourseSection('${s.id}')">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCourseSection('${s.id}')">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-                });
-
-                document.getElementById("courseSectionTable").innerHTML = html || `
-                    <tr>
-                        <td colspan="8" class="text-center text-muted">Khong co du lieu</td>
-                    </tr>
-                `;
+                populateCodeOptions(data);
+                updateStats(data);
+                renderTable(data);
             } catch (error) {
                 console.error("Khong load duoc danh sach lop hoc phan:", error);
                 document.getElementById("courseSectionTable").innerHTML = `
@@ -807,29 +946,112 @@
         }
 
         function addClass() {
-            const modalElement = document.getElementById("courseClassModal");
-            const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
-            modal.show();
+            resetForm();
+            openModal();
         }
 
         function applyFilters() {
-            loadCourseClasses();
+            loadCourseClasses(true);
         }
 
-        function editCourseSection(id) {
-            console.log("Chua noi form sua cho lop hoc phan:", id);
+        async function editCourseSection(id) {
+            try {
+                const res = await fetch(`${API_URL}/${id}`);
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+
+                const item = await res.json();
+                if (!item) {
+                    alert("Khong tim thay lop hoc phan.");
+                    return;
+                }
+
+                document.getElementById("classId").value = item.id ?? "";
+                document.getElementById("courseSelect").value = item.code ?? "";
+                document.getElementById("semesterSelect").value = item.academicYear ?? "";
+                document.getElementById("instructor").value = item.note ?? "";
+                document.getElementById("classType").value = item.classType ?? "";
+                document.getElementById("maxStudent").value = item.maxStudents ?? "";
+                document.getElementById("minStudent").value = item.minStudents ?? "";
+                document.getElementById("status").value = item.status ?? "open";
+                document.getElementById("courseClassModalLabel").textContent = "Sua lop hoc phan";
+                openModal();
+            } catch (error) {
+                console.error("Khong tai duoc chi tiet lop hoc phan:", error);
+                alert("Khong tai duoc thong tin lop hoc phan.");
+            }
         }
 
         async function deleteCourseSection(id) {
-            if (!confirm("Ban co chac muon xoa lop hoc phan nay?")) return;
+            if (!confirm("Ban co chac muon xoa lop hoc phan nay?")) {
+                return;
+            }
 
-            await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-            loadCourseClasses();
+            try {
+                const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+
+                await loadCourseClasses();
+            } catch (error) {
+                console.error("Khong xoa duoc lop hoc phan:", error);
+                alert("Xoa lop hoc phan that bai.");
+            }
         }
 
-        function saveCourseClass() {
-            console.log("Chua noi chuc nang luu lop hoc phan");
+        async function saveCourseClass() {
+            const form = document.getElementById("courseClassForm");
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const maxStudents = parseInteger(document.getElementById("maxStudent").value);
+            const minStudents = parseInteger(document.getElementById("minStudent").value);
+
+            if (maxStudents !== null && minStudents !== null && minStudents > maxStudents) {
+                alert("Si so toi thieu khong duoc lon hon si so toi da.");
+                return;
+            }
+
+            const id = document.getElementById("classId").value.trim();
+            const method = id ? "PUT" : "POST";
+            const url = id ? `${API_URL}/${id}` : API_URL;
+
+            try {
+                const res = await fetch(url, {
+                    method,
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(getPayload())
+                });
+
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+
+                closeModal();
+                resetForm();
+                await loadCourseClasses();
+            } catch (error) {
+                console.error("Khong luu duoc lop hoc phan:", error);
+                alert("Luu lop hoc phan that bai.");
+            }
         }
+
+        document.getElementById("searchInput").addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                applyFilters();
+            }
+        });
+
+        document.getElementById("courseClassModal").addEventListener("hidden.bs.modal", () => {
+            resetForm();
+        });
 
         loadCourseClasses();
     </script>
