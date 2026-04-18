@@ -3,6 +3,7 @@ package com.example.demo.course_sections.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,6 +70,22 @@ public class CourseSectionsController {
             @RequestParam(required = false) String classType,
             @RequestParam(required = false) String status) {
         return service.search(keyword, code, academicYear, maxStudents, minStudents, classType, status);
+    }
+
+    // 7. Paginated search course section
+    @GetMapping("/paged")
+    public Page<CourseSections> searchPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String code,
+            @RequestParam(required = false) String academicYear,
+            @RequestParam(required = false) Integer maxStudents,
+            @RequestParam(required = false) Integer minStudents,
+            @RequestParam(required = false) String classType,
+            @RequestParam(required = false) String status) {
+        return service.searchPaged(keyword, code, academicYear, maxStudents, minStudents, classType, status, page,
+                size);
     }
 
 }

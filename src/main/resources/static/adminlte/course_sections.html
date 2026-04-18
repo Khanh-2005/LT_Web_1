@@ -551,6 +551,7 @@
 
             <!-- Box -->
             <div class="card">
+                <!-- Header with Search and Add Button -->
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5>Danh Sách Lớp Học Phần</h5>
                     <div class="d-flex align-items-center gap-2 ms-auto">
@@ -651,12 +652,8 @@
                 </table>
                 <!-- PAGINATION for list course class -->
                 <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-1">
-                    <ul class="pagination" style="gap: 8px;">
-                        <li class="page-item"><a class="page-link">Previous</a></li>
-                        <li class="page-item"><a class="page-link">1</a></li>
-                        <li class="page-item"><a class="page-link">2</a></li>
-                        <li class="page-item"><a class="page-link">3</a></li>
-                        <li class="page-item"><a class="page-link">Next</a></li>
+                    <ul class="pagination" id="pagination" style="gap: 8px;">
+                        <li class="page-item disabled"><span class="page-link">1</span></li>
                     </ul>
                 </nav>
             </div>
@@ -758,6 +755,9 @@
 
     <script>
         const API_URL = "http://localhost:8080/api/course-sections";
+        const PAGE_SIZE = 10;
+        let currentPage = 0;
+        let currentPageData = null;
 
         function getAcademicYearFilter() {
             return document.querySelector('.card-body .row .col-md-2:nth-child(2) select');
@@ -804,14 +804,15 @@
                 .replaceAll("'", "&#39;");
         }
 
-        function updateStats(data) {
-            const uniqueCourses = new Set(data.map(item => item.code).filter(Boolean));
-            const activeCount = data.filter(item => (item.status ?? "").toLowerCase() === "open").length;
+        function updateStats(pageData) {
+            const content = pageData.content ?? [];
+            const uniqueCourses = new Set(content.map(item => item.code).filter(Boolean));
+            const activeCount = content.filter(item => (item.status ?? "").toLowerCase() === "open").length;
 
             document.getElementById("totalCourses").textContent = uniqueCourses.size;
-            document.getElementById("totalClasses").textContent = data.length;
+            document.getElementById("totalClasses").textContent = pageData.totalElements ?? content.length;
             document.getElementById("activeClasses").textContent = activeCount;
-            document.getElementById("inactiveClasses").textContent = data.length - activeCount;
+            document.getElementById("inactiveClasses").textContent = content.length - activeCount;
         }
 
         function renderTable(data) {
@@ -893,6 +894,36 @@
             courseSelect.value = codes.includes(selectedForm) ? selectedForm : "";
         }
 
+        function renderPagination(pageData) {
+            const pagination = document.getElementById("pagination");
+            const totalPages = Math.max(pageData.totalPages ?? 0, 1);
+            const pageNumber = pageData.number ?? 0;
+            const startPage = Math.max(0, pageNumber - 2);
+            const endPage = Math.min(totalPages - 1, startPage + 4);
+            const adjustedStartPage = Math.max(0, endPage - 4);
+            let html = `
+                <li class="page-item ${pageNumber <= 0 ? "disabled" : ""}">
+                    <button class="page-link" type="button" onclick="changePage(${pageNumber - 1})">Previous</button>
+                </li>
+            `;
+
+            for (let page = adjustedStartPage; page <= endPage; page++) {
+                html += `
+                    <li class="page-item ${page === pageNumber ? "active" : ""}">
+                        <button class="page-link" type="button" onclick="changePage(${page})">${page + 1}</button>
+                    </li>
+                `;
+            }
+
+            html += `
+                <li class="page-item ${pageNumber >= totalPages - 1 ? "disabled" : ""}">
+                    <button class="page-link" type="button" onclick="changePage(${pageNumber + 1})">Next</button>
+                </li>
+            `;
+
+            pagination.innerHTML = html;
+        }
+
         function resetForm() {
             document.getElementById("courseClassForm").reset();
             document.getElementById("classId").value = "";
@@ -921,20 +952,31 @@
             bootstrap.Modal.getOrCreateInstance(document.getElementById("courseClassModal")).hide();
         }
 
-        async function loadCourseClasses(useSearch = false) {
+        async function loadCourseClasses(page = currentPage) {
             try {
                 const params = getFilterParams();
-                const url = useSearch && params.toString() ? `${API_URL}/search?${params.toString()}` : API_URL;
-                const res = await fetch(url);
+                params.set("page", page);
+                params.set("size", PAGE_SIZE);
+                const res = await fetch(`${API_URL}/paged?${params.toString()}`);
 
                 if (!res.ok) {
                     throw new Error(`HTTP ${res.status}`);
                 }
 
-                const data = await res.json();
-                populateCodeOptions(data);
-                updateStats(data);
-                renderTable(data);
+                const pageData = await res.json();
+
+                if ((pageData.totalPages ?? 0) > 0 && page >= pageData.totalPages) {
+                    currentPage = pageData.totalPages - 1;
+                    await loadCourseClasses(currentPage);
+                    return;
+                }
+
+                currentPage = pageData.number ?? 0;
+                currentPageData = pageData;
+                populateCodeOptions(pageData.content ?? []);
+                updateStats(pageData);
+                renderTable(pageData.content ?? []);
+                renderPagination(pageData);
             } catch (error) {
                 console.error("Khong load duoc danh sach lop hoc phan:", error);
                 document.getElementById("courseSectionTable").innerHTML = `
@@ -945,13 +987,22 @@
             }
         }
 
+        function changePage(page) {
+            if (page < 0) {
+                return;
+            }
+
+            loadCourseClasses(page);
+        }
+
         function addClass() {
             resetForm();
             openModal();
         }
 
         function applyFilters() {
-            loadCourseClasses(true);
+            currentPage = 0;
+            loadCourseClasses(0);
         }
 
         async function editCourseSection(id) {
@@ -994,7 +1045,7 @@
                     throw new Error(`HTTP ${res.status}`);
                 }
 
-                await loadCourseClasses();
+                await loadCourseClasses(currentPage);
             } catch (error) {
                 console.error("Khong xoa duoc lop hoc phan:", error);
                 alert("Xoa lop hoc phan that bai.");
@@ -1035,7 +1086,7 @@
 
                 closeModal();
                 resetForm();
-                await loadCourseClasses();
+                await loadCourseClasses(currentPage);
             } catch (error) {
                 console.error("Khong luu duoc lop hoc phan:", error);
                 alert("Luu lop hoc phan that bai.");

@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +22,17 @@ public class CourseSectionsService {
         this.repo = repo;
     }
 
+    // 1. Get all course sections
     public List<CourseSections> getAll() {
         return repo.findByDeletedAtIsNull();
     }
 
+    // 2. Get course section by ID
     public CourseSections getById(UUID id) {
         return repo.findByIdAndDeletedAtIsNull(id).orElse(null);
     }
 
+    // 3. Create new course section
     public CourseSections create(CourseSections courseSection) {
         LocalDateTime now = LocalDateTime.now();
         courseSection.setId(null);
@@ -41,6 +48,7 @@ public class CourseSectionsService {
         return repo.save(courseSection);
     }
 
+    // 4. Update existing course section
     public CourseSections update(UUID id, CourseSections courseSection) {
         CourseSections old = getById(id);
         if (old == null) {
@@ -75,8 +83,42 @@ public class CourseSectionsService {
         return repo.save(old);
     }
 
+    // 5. Search course section
     public List<CourseSections> search(String keyword, String code, String academicYear, Integer maxStudents,
             Integer minStudents, String classType, String status) {
+        return repo.findAll(
+                buildSearchSpecification(keyword, code, academicYear, maxStudents, minStudents, classType, status));
+    }
+
+    // 6. Paginated search course section
+    public Page<CourseSections> searchPaged(String keyword, String code, String academicYear, Integer maxStudents,
+            Integer minStudents, String classType, String status, int page, int size) {
+        Pageable pageable = PageRequest.of(Math.max(page, 0), Math.max(size, 1), Sort.by(Sort.Direction.ASC, "code"));
+        return repo.findAll(
+                buildSearchSpecification(keyword, code, academicYear, maxStudents, minStudents, classType, status),
+                pageable);
+    }
+
+    // 7. Soft delete course section
+    public void softDelete(UUID id) {
+        CourseSections courseSection = getById(id);
+        if (courseSection == null) {
+            return;
+        }
+
+        courseSection.setDeletedAt(LocalDateTime.now());
+        courseSection.setIsActive(false);
+        courseSection.setUpdatedAt(LocalDateTime.now());
+        repo.save(courseSection);
+    }
+
+    // Helper method to check if a string has text
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+    private Specification<CourseSections> buildSearchSpecification(String keyword, String code, String academicYear,
+            Integer maxStudents, Integer minStudents, String classType, String status) {
         Specification<CourseSections> spec = (root, query, cb) -> cb.isNull(root.get("deletedAt"));
 
         if (hasText(keyword)) {
@@ -117,23 +159,7 @@ public class CourseSectionsService {
             spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("status")), pattern));
         }
 
-        return repo.findAll(spec);
-    }
-
-    public void softDelete(UUID id) {
-        CourseSections courseSection = getById(id);
-        if (courseSection == null) {
-            return;
-        }
-
-        courseSection.setDeletedAt(LocalDateTime.now());
-        courseSection.setIsActive(false);
-        courseSection.setUpdatedAt(LocalDateTime.now());
-        repo.save(courseSection);
-    }
-
-    private boolean hasText(String value) {
-        return value != null && !value.trim().isEmpty();
+        return spec;
     }
 
 }
