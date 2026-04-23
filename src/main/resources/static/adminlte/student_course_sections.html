@@ -640,6 +640,61 @@
             </div>
         </main>
 
+        <!-- Modal for editing student course section -->
+        <div class="modal fade" id="studentCourseSectionModal" tabindex="-1"
+            aria-labelledby="studentCourseSectionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="studentCourseSectionModalLabel">Cập nhật đăng ký lớp học phần</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="studentCourseSectionForm" class="row g-3">
+                            <input type="hidden" id="editStudentCourseSectionId">
+                            <div class="col-md-6">
+                                <label class="form-label" for="editStudentSelect">Sinh viên</label>
+                                <select class="form-select" id="editStudentSelect" required></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="editCourseSectionSelect">Lớp học phần</label>
+                                <select class="form-select" id="editCourseSectionSelect" required></select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="editStatus">Trạng thái</label>
+                                <select class="form-select" id="editStatus" required>
+                                    <option value="studying">Đang học</option>
+                                    <option value="completed">Hoàn thành</option>
+                                    <option value="dropped">Rút môn</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="editRegisteredAt">Ngày đăng ký</label>
+                                <input type="datetime-local" class="form-control" id="editRegisteredAt">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="editIsActive">Kích hoạt</label>
+                                <select class="form-select" id="editIsActive">
+                                    <option value="true">Đang hoạt động</option>
+                                    <option value="false">Ngừng hoạt động</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="editNote">Ghi chú</label>
+                                <textarea class="form-control" id="editNote" rows="3"
+                                    placeholder="Nhập ghi chú nếu có"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-primary" onclick="saveStudentCourseSection()">Lưu thay
+                            đổi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer -->
         <div class="app-footer">
             <div class="container-fluid">
@@ -652,67 +707,15 @@
         </div>
     </div>
 
-    <!-- Modal for editing student course section -->
-    <div class="modal fade" id="studentCourseSectionModal" tabindex="-1"
-        aria-labelledby="studentCourseSectionModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="studentCourseSectionModalLabel">Cập nhật đăng ký lớp học phần</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="studentCourseSectionForm" class="row g-3">
-                        <input type="hidden" id="editStudentCourseSectionId">
-                        <div class="col-md-6">
-                            <label class="form-label" for="editStudentSelect">Sinh viên</label>
-                            <select class="form-select" id="editStudentSelect" required></select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="editCourseSectionSelect">Lớp học phần</label>
-                            <select class="form-select" id="editCourseSectionSelect" required></select>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="editStatus">Trạng thái</label>
-                            <select class="form-select" id="editStatus" required>
-                                <option value="studying">Đang học</option>
-                                <option value="completed">Hoàn thành</option>
-                                <option value="dropped">Rút môn</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="editRegisteredAt">Ngày đăng ký</label>
-                            <input type="datetime-local" class="form-control" id="editRegisteredAt">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" for="editIsActive">Kích hoạt</label>
-                            <select class="form-select" id="editIsActive">
-                                <option value="true">Đang hoạt động</option>
-                                <option value="false">Ngừng hoạt động</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label" for="editNote">Ghi chú</label>
-                            <textarea class="form-control" id="editNote" rows="3"
-                                placeholder="Nhập ghi chú nếu có"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" onclick="saveStudentCourseSection()">Lưu thay
-                        đổi</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/js/adminlte.min.js"></script>
 
     <script>
-        const API_URL = "http://localhost:8080/api/student_course_sections";
+        const API_URL = "/api/student_course_sections";
+        const STUDENTS_API_URL = "/api/students";
+        const COURSE_SECTIONS_API_URL = "/api/course-sections";
         const PAGE_SIZE = 10;
+
         const tableBody = document.getElementById('courseSectionTable');
         const totalCoursesEl = document.getElementById('totalCourses');
         const totalClassesEl = document.getElementById('totalClasses');
@@ -726,14 +729,40 @@
         const statusFilter = document.getElementById('statusFilter');
         const paginationEl = document.getElementById('pagination');
 
+        const modalElement = document.getElementById('studentCourseSectionModal');
+        const studentCourseSectionModal = new bootstrap.Modal(modalElement);
+        const editForm = document.getElementById('studentCourseSectionForm');
+        const editIdInput = document.getElementById('editStudentCourseSectionId');
+        const editStudentSelect = document.getElementById('editStudentSelect');
+        const editCourseSectionSelect = document.getElementById('editCourseSectionSelect');
+        const editStatus = document.getElementById('editStatus');
+        const editRegisteredAt = document.getElementById('editRegisteredAt');
+        const editIsActive = document.getElementById('editIsActive');
+        const editNote = document.getElementById('editNote');
+
         let currentPage = 0;
-        let currentPageData = null;
         let currentPageItems = [];
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadStudentCourseSections();
-        });
+        let studentOptions = [];
+        let courseSectionOptions = [];
 
+        document.addEventListener('DOMContentLoaded', () => {
+            initializePage();
+        });
+        // Khoi tao trang
+        async function initializePage() {
+            try {
+                await Promise.all([
+                    loadStudentOptions(),
+                    loadCourseSectionOptions()
+                ]);
+                await loadStudentCourseSections();
+            } catch (error) {
+                console.error(error);
+                tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Khong the khoi tao du lieu trang.</td></tr>`;
+            }
+        }
+        // Ham thoat HTML de tranh XSS
         function escapeHtml(value) {
             return String(value ?? '')
                 .replaceAll('&', '&amp;')
@@ -742,12 +771,12 @@
                 .replaceAll('"', '&quot;')
                 .replaceAll("'", '&#39;');
         }
-
+        // Ham chuan hoa gia tri loc
         function normalizeFilterValue(value) {
             const normalized = String(value ?? '').trim();
             return normalized.toLowerCase().startsWith('chọn ') ? '' : normalized;
         }
-
+        // Ham chuan hoa text de so sanh va loc
         function normalizeText(value) {
             return String(value ?? '')
                 .trim()
@@ -755,7 +784,7 @@
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '');
         }
-
+        // Ham chuan hoa gioi tinh
         function normalizeGenderValue(value) {
             const normalized = normalizeText(value);
 
@@ -773,7 +802,62 @@
 
             return normalized;
         }
+        // Ham dinh dang label cho select options
+        function formatSelectLabel(code, name) {
+            const safeCode = String(code ?? '').trim();
+            const safeName = String(name ?? '').trim();
 
+            if (safeCode && safeName) {
+                return `${safeCode} - ${safeName}`;
+            }
+
+            return safeCode || safeName || 'Khong xac dinh';
+        }
+        // Ham dien du lieu vao select options
+        function fillSelectOptions(selectElement, items, placeholder, formatter) {
+            selectElement.innerHTML = `<option value="">${escapeHtml(placeholder)}</option>` + items.map(item => `
+                <option value="${escapeHtml(item.id)}">${escapeHtml(formatter(item))}</option>
+            `).join('');
+        }
+        // Ham tai danh sach sinh vien de dien vao select khi edit
+        async function loadStudentOptions() {
+            const response = await fetch(STUDENTS_API_URL);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            studentOptions = await response.json();
+            fillSelectOptions(
+                editStudentSelect,
+                studentOptions,
+                'Chon sinh vien',
+                student => formatSelectLabel(student.code, student.fullname || student.fullName)
+            );
+        }
+        // Ham tai danh sach lop hoc phan de dien vao select khi edit
+        async function loadCourseSectionOptions() {
+            const response = await fetch(COURSE_SECTIONS_API_URL);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            courseSectionOptions = await response.json();
+            fillSelectOptions(
+                editCourseSectionSelect,
+                courseSectionOptions,
+                'Chon lop hoc phan',
+                section => formatSelectLabel(section.code, section.className || section.name || section.academicYear)
+            );
+        }
+        // Ham dinh dang ngay thang
+        function toDateTimeLocalValue(value) {
+            return value ? String(value).slice(0, 16) : '';
+        }
+        // Ham lay ban ghi theo id
+        function getStudentCourseSectionById(id) {
+            return currentPageItems.find(item => item.id === id) || null;
+        }
+        // Ham lay cac tieu chi loc dang hoat dong
         function getActiveFilters() {
             return {
                 keyword: normalizeText(searchInput.value),
@@ -784,7 +868,7 @@
                 status: normalizeText(normalizeFilterValue(statusFilter.value))
             };
         }
-
+        // Ham loc ban ghi tren trang hien tai dua tren cac tieu chi loc
         function filterCurrentPageItems(items) {
             const filters = getActiveFilters();
 
@@ -817,7 +901,7 @@
                     && matchesStatus;
             });
         }
-
+        // Ham lay danh sach ban ghi tren trang hien tai
         async function loadStudentCourseSections(page = currentPage) {
             try {
                 const params = new URLSearchParams();
@@ -838,7 +922,6 @@
                 }
 
                 currentPage = pageData.number ?? 0;
-                currentPageData = pageData;
                 currentPageItems = pageData.content ?? [];
                 populateAcademicYearFilter(currentPageItems);
                 applyFilters();
@@ -849,7 +932,7 @@
                 paginationEl.innerHTML = '';
             }
         }
-
+        // Ham hien thi danh sach ban ghi tren trang
         function renderCourseSectionTable(items) {
             if (!items || items.length === 0) {
                 tableBody.innerHTML = `<tr><td colspan="7" class="text-center">Chưa có dữ liệu đăng ký nào.</td></tr>`;
@@ -883,14 +966,14 @@
                     </tr>`;
             }).join('');
         }
-
+        // Ham cap nhat thong tin tong quan tren cac card
         function renderSummaryCards(items) {
             totalCoursesEl.textContent = items.length;
             totalClassesEl.textContent = items.filter(item => item.status?.toLowerCase() === 'studying').length;
             activeClassesEl.textContent = items.filter(item => item.status?.toLowerCase() === 'completed').length;
             inactiveClassesEl.textContent = items.filter(item => item.status?.toLowerCase() === 'dropped').length;
         }
-
+        // Ham dien cac option cho filter lop hoc phan dua tren du lieu dang co tren trang
         function populateAcademicYearFilter(items) {
             const currentValue = academicYearFilter.value;
             const uniqueSections = [...new Set(items.map(item => item.courseSection?.code || item.courseSectionId).filter(Boolean))];
@@ -901,7 +984,7 @@
                 optionsSource.map(section => `<option value="${escapeHtml(section)}">${escapeHtml(section)}</option>`).join('');
             academicYearFilter.value = currentValue;
         }
-
+        // Ham hien thi phan trang
         function renderPagination(pageData) {
             const totalPages = Math.max(pageData.totalPages ?? 0, 1);
             const pageNumber = pageData.number ?? 0;
@@ -930,13 +1013,13 @@
 
             paginationEl.innerHTML = html;
         }
-
+        // Ham ap dung cac tieu chi loc va hien thi lai du lieu tren trang
         function applyFilters() {
             const filteredItems = filterCurrentPageItems(currentPageItems);
             renderCourseSectionTable(filteredItems);
             renderSummaryCards(filteredItems);
         }
-
+        // Ham chuyen trang
         function changePage(page) {
             if (page < 0) {
                 return;
@@ -944,15 +1027,94 @@
 
             loadStudentCourseSections(page);
         }
-
+        // Ham cap nhat ban ghi
         function editStudentCourseSection(id) {
-            alert('Chức năng sửa chưa được cài đặt: ' + id);
-        }
+            const item = getStudentCourseSectionById(id);
+            if (!item) {
+                alert('Khong tim thay ban ghi can cap nhat.');
+                return;
+            }
 
-        function deleteStudentCourseSection(id) {
-            alert('Chức năng xóa chưa được cài đặt: ' + id);
+            editIdInput.value = item.id || '';
+            editStudentSelect.value = item.studentId || '';
+            editCourseSectionSelect.value = item.courseSectionId || '';
+            editStatus.value = item.status || 'studying';
+            editRegisteredAt.value = toDateTimeLocalValue(item.registeredAt);
+            editIsActive.value = String(item.isActive ?? true);
+            editNote.value = item.note || '';
+            studentCourseSectionModal.show();
         }
+        // Ham luu ban ghi
+        async function saveStudentCourseSection() {
+            if (!editForm.reportValidity()) {
+                return;
+            }
 
+            const id = editIdInput.value;
+            const currentItem = getStudentCourseSectionById(id);
+            if (!id || !currentItem) {
+                alert('Khong xac dinh duoc ban ghi can cap nhat.');
+                return;
+            }
+
+            const payload = {
+                studentId: editStudentSelect.value || null,
+                courseSectionId: editCourseSectionSelect.value || null,
+                status: editStatus.value,
+                registeredAt: editRegisteredAt.value || null,
+                note: editNote.value.trim(),
+                isActive: editIsActive.value === 'true',
+                createdAt: currentItem.createdAt || null,
+                createdBy: currentItem.createdBy || null,
+                updatedBy: currentItem.updatedBy || currentItem.createdBy || null
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                studentCourseSectionModal.hide();
+                await loadStudentCourseSections(currentPage);
+            } catch (error) {
+                console.error(error);
+                alert('Khong the cap nhat dang ky lop hoc phan.');
+            }
+        }
+        // Ham xoa ban ghi
+        async function deleteStudentCourseSection(id) {
+            const item = getStudentCourseSectionById(id);
+            const studentLabel = item?.student?.fullname || item?.student?.fullName || item?.student?.code || id;
+
+            if (!confirm(`Ban co chac muon xoa mem dang ky cua "${studentLabel}" khong?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const nextPage = currentPageItems.length === 1 && currentPage > 0 ? currentPage - 1 : currentPage;
+                await loadStudentCourseSections(nextPage);
+            } catch (error) {
+                console.error(error);
+                alert('Khong the xoa mem dang ky lop hoc phan.');
+            }
+        }
+        // Ham tai file Excel
         function downloadStudentCourseSections() {
             const link = document.createElement('a');
             link.href = `${API_URL}/download`;
