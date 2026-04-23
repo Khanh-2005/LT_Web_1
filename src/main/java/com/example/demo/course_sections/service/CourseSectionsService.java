@@ -117,6 +117,7 @@ public class CourseSectionsService {
         return value != null && !value.trim().isEmpty();
     }
 
+    // Helper method to build search specification
     private Specification<CourseSections> buildSearchSpecification(String keyword, String code, String academicYear,
             Integer maxStudents, Integer minStudents, String classType, String status) {
         Specification<CourseSections> spec = (root, query, cb) -> cb.isNull(root.get("deletedAt"));

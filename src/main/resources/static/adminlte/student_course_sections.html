@@ -563,7 +563,7 @@
                         <button class="btn btn-warning" onclick="applyFilters()">
                             <i class="fa fa-search"></i>
                         </button>
-                        <button class="btn btn-primary" onclick="addNewRow()">
+                        <button class="btn btn-primary" onclick="downloadStudentCourseSections()">
                             <i class="fa fa-download"></i>
                         </button>
                     </div>
@@ -574,11 +574,13 @@
                     <div class="row mb-3 align-items-end">
                         <div class="col-md-2">
                             <label class="form-label">Mã Sinh Viên</label>
-                            <input type="text" class="form-control" placeholder="Nhập mã sinh viên">
+                            <input type="text" class="form-control" id="studentCodeFilter"
+                                placeholder="Nhập mã sinh viên">
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Tên Sinh Viên</label>
-                            <input type="text" class="form-control" placeholder="Nhập tên sinh viên">
+                            <input type="text" class="form-control" id="studentNameFilter"
+                                placeholder="Nhập tên sinh viên">
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Giới tính</label>
@@ -591,7 +593,7 @@
                         <div class="col-md-2">
                             <label class="form-label">Lớp Học Phần</label>
                             <select class="form-select" id="academicYearFilter">
-                                <option>Chọn lớp học phần</option>
+                                <option value="">Chọn lớp học phần</option>
                             </select>
                         </div>
 
@@ -650,42 +652,201 @@
         </div>
     </div>
 
+    <!-- Modal for editing student course section -->
+    <div class="modal fade" id="studentCourseSectionModal" tabindex="-1"
+        aria-labelledby="studentCourseSectionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="studentCourseSectionModalLabel">Cập nhật đăng ký lớp học phần</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="studentCourseSectionForm" class="row g-3">
+                        <input type="hidden" id="editStudentCourseSectionId">
+                        <div class="col-md-6">
+                            <label class="form-label" for="editStudentSelect">Sinh viên</label>
+                            <select class="form-select" id="editStudentSelect" required></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="editCourseSectionSelect">Lớp học phần</label>
+                            <select class="form-select" id="editCourseSectionSelect" required></select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="editStatus">Trạng thái</label>
+                            <select class="form-select" id="editStatus" required>
+                                <option value="studying">Đang học</option>
+                                <option value="completed">Hoàn thành</option>
+                                <option value="dropped">Rút môn</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="editRegisteredAt">Ngày đăng ký</label>
+                            <input type="datetime-local" class="form-control" id="editRegisteredAt">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" for="editIsActive">Kích hoạt</label>
+                            <select class="form-select" id="editIsActive">
+                                <option value="true">Đang hoạt động</option>
+                                <option value="false">Ngừng hoạt động</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="editNote">Ghi chú</label>
+                            <textarea class="form-control" id="editNote" rows="3"
+                                placeholder="Nhập ghi chú nếu có"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="saveStudentCourseSection()">Lưu thay
+                        đổi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/js/adminlte.min.js"></script>
 
     <script>
         const API_URL = "http://localhost:8080/api/student_course_sections";
+        const PAGE_SIZE = 10;
         const tableBody = document.getElementById('courseSectionTable');
         const totalCoursesEl = document.getElementById('totalCourses');
         const totalClassesEl = document.getElementById('totalClasses');
         const activeClassesEl = document.getElementById('activeClasses');
         const inactiveClassesEl = document.getElementById('inactiveClasses');
         const searchInput = document.getElementById('searchInput');
+        const studentCodeFilter = document.getElementById('studentCodeFilter');
+        const studentNameFilter = document.getElementById('studentNameFilter');
         const genderFilter = document.getElementById('genderFilter');
         const academicYearFilter = document.getElementById('academicYearFilter');
         const statusFilter = document.getElementById('statusFilter');
+        const paginationEl = document.getElementById('pagination');
 
-        let studentCourseData = [];
+        let currentPage = 0;
+        let currentPageData = null;
+        let currentPageItems = [];
 
         document.addEventListener('DOMContentLoaded', () => {
             loadStudentCourseSections();
         });
 
-        async function loadStudentCourseSections() {
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+        }
+
+        function normalizeFilterValue(value) {
+            const normalized = String(value ?? '').trim();
+            return normalized.toLowerCase().startsWith('chọn ') ? '' : normalized;
+        }
+
+        function normalizeText(value) {
+            return String(value ?? '')
+                .trim()
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function normalizeGenderValue(value) {
+            const normalized = normalizeText(value);
+
+            if (!normalized) {
+                return '';
+            }
+
+            if (['male', 'nam', 'm'].includes(normalized)) {
+                return 'male';
+            }
+
+            if (['female', 'nu', 'f'].includes(normalized)) {
+                return 'female';
+            }
+
+            return normalized;
+        }
+
+        function getActiveFilters() {
+            return {
+                keyword: normalizeText(searchInput.value),
+                studentCode: normalizeText(studentCodeFilter.value),
+                studentName: normalizeText(studentNameFilter.value),
+                gender: normalizeGenderValue(normalizeFilterValue(genderFilter.value)),
+                courseSectionCode: normalizeText(normalizeFilterValue(academicYearFilter.value)),
+                status: normalizeText(normalizeFilterValue(statusFilter.value))
+            };
+        }
+
+        function filterCurrentPageItems(items) {
+            const filters = getActiveFilters();
+
+            return items.filter(item => {
+                const studentCode = normalizeText(item.student?.code || item.studentId || '');
+                const studentName = normalizeText(item.student?.fullname || item.student?.fullName || '');
+                const studentGender = normalizeGenderValue(item.student?.gender || '');
+                const courseSectionCode = normalizeText(item.courseSection?.code || item.courseSectionId || '');
+                const status = normalizeText(item.status || '');
+                const note = normalizeText(item.note || '');
+
+                const matchesKeyword = !filters.keyword
+                    || studentCode.includes(filters.keyword)
+                    || studentName.includes(filters.keyword)
+                    || courseSectionCode.includes(filters.keyword)
+                    || status.includes(filters.keyword)
+                    || note.includes(filters.keyword);
+
+                const matchesStudentCode = !filters.studentCode || studentCode.includes(filters.studentCode);
+                const matchesStudentName = !filters.studentName || studentName.includes(filters.studentName);
+                const matchesGender = !filters.gender || studentGender === filters.gender;
+                const matchesCourseSection = !filters.courseSectionCode || courseSectionCode === filters.courseSectionCode;
+                const matchesStatus = !filters.status || status === filters.status;
+
+                return matchesKeyword
+                    && matchesStudentCode
+                    && matchesStudentName
+                    && matchesGender
+                    && matchesCourseSection
+                    && matchesStatus;
+            });
+        }
+
+        async function loadStudentCourseSections(page = currentPage) {
             try {
-                const response = await fetch(API_URL);
+                const params = new URLSearchParams();
+                params.set('page', page);
+                params.set('size', PAGE_SIZE);
+
+                const response = await fetch(`${API_URL}/paged?${params.toString()}`);
                 if (!response.ok) {
-                    throw new Error('Lỗi khi tải dữ liệu');
+                    throw new Error(`HTTP ${response.status}`);
                 }
 
-                const data = await response.json();
-                studentCourseData = Array.isArray(data) ? data : [];
-                renderCourseSectionTable(studentCourseData);
-                renderSummaryCards(studentCourseData);
-                populateAcademicYearFilter(studentCourseData);
+                const pageData = await response.json();
+
+                if ((pageData.totalPages ?? 0) > 0 && page >= pageData.totalPages) {
+                    currentPage = pageData.totalPages - 1;
+                    await loadStudentCourseSections(currentPage);
+                    return;
+                }
+
+                currentPage = pageData.number ?? 0;
+                currentPageData = pageData;
+                currentPageItems = pageData.content ?? [];
+                populateAcademicYearFilter(currentPageItems);
+                applyFilters();
+                renderPagination(pageData);
             } catch (error) {
                 console.error(error);
                 tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Không thể tải dữ liệu.</td></tr>`;
+                paginationEl.innerHTML = '';
             }
         }
 
@@ -695,7 +856,7 @@
                 return;
             }
 
-            tableBody.innerHTML = items.map((item, index) => {
+            tableBody.innerHTML = items.map(item => {
                 const studentCode = item.student?.code || item.studentId || '';
                 const studentName = item.student?.fullname || item.student?.fullName || 'Chưa rõ';
                 const studentGender = item.student?.gender || 'Chưa rõ';
@@ -705,12 +866,12 @@
 
                 return `
                     <tr>
-                        <td>${studentCode}</td>
-                        <td>${studentName}</td>
-                        <td>${studentGender}</td>
-                        <td>${courseSectionCode}</td>
-                        <td>${status}</td>
-                        <td>${note}</td>
+                        <td>${escapeHtml(studentCode)}</td>
+                        <td>${escapeHtml(studentName)}</td>
+                        <td>${escapeHtml(studentGender)}</td>
+                        <td>${escapeHtml(courseSectionCode)}</td>
+                        <td>${escapeHtml(status)}</td>
+                        <td>${escapeHtml(note)}</td>
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editStudentCourseSection('${item.id}')">
                                 <i class="fa fa-edit"></i>
@@ -731,43 +892,82 @@
         }
 
         function populateAcademicYearFilter(items) {
+            const currentValue = academicYearFilter.value;
             const uniqueSections = [...new Set(items.map(item => item.courseSection?.code || item.courseSectionId).filter(Boolean))];
+            const optionsSource = currentValue && !uniqueSections.includes(currentValue)
+                ? [currentValue, ...uniqueSections]
+                : uniqueSections;
             academicYearFilter.innerHTML = '<option value="">Chọn lớp học phần</option>' +
-                uniqueSections.map(section => `<option value="${section}">${section}</option>`).join('');
+                optionsSource.map(section => `<option value="${escapeHtml(section)}">${escapeHtml(section)}</option>`).join('');
+            academicYearFilter.value = currentValue;
+        }
+
+        function renderPagination(pageData) {
+            const totalPages = Math.max(pageData.totalPages ?? 0, 1);
+            const pageNumber = pageData.number ?? 0;
+            const startPage = Math.max(0, pageNumber - 2);
+            const endPage = Math.min(totalPages - 1, startPage + 4);
+            const adjustedStartPage = Math.max(0, endPage - 4);
+            let html = `
+                <li class="page-item ${pageNumber <= 0 ? 'disabled' : ''}">
+                    <button class="page-link" type="button" onclick="changePage(${pageNumber - 1})">Previous</button>
+                </li>
+            `;
+
+            for (let page = adjustedStartPage; page <= endPage; page++) {
+                html += `
+                    <li class="page-item ${page === pageNumber ? 'active' : ''}">
+                        <button class="page-link" type="button" onclick="changePage(${page})">${page + 1}</button>
+                    </li>
+                `;
+            }
+
+            html += `
+                <li class="page-item ${pageNumber >= totalPages - 1 ? 'disabled' : ''}">
+                    <button class="page-link" type="button" onclick="changePage(${pageNumber + 1})">Next</button>
+                </li>
+            `;
+
+            paginationEl.innerHTML = html;
         }
 
         function applyFilters() {
-            const searchText = searchInput.value.trim().toLowerCase();
-            const gender = genderFilter.value;
-            const courseSection = academicYearFilter.value;
-            const status = statusFilter.value;
-
-            const filtered = studentCourseData.filter(item => {
-                const studentName = (item.student?.fullname || item.student?.fullName || '').toLowerCase();
-                const studentCode = (item.student?.code || item.studentId || '').toLowerCase();
-                const courseCode = (item.courseSection?.code || item.courseSectionId || '').toLowerCase();
-                const itemGender = (item.student?.gender || '').toLowerCase();
-                const itemStatus = (item.status || '').toLowerCase();
-
-                const matchesSearch = !searchText || studentName.includes(searchText) || studentCode.includes(searchText) || courseCode.includes(searchText);
-                const matchesGender = !gender || itemGender === gender.toLowerCase();
-                const matchesCourse = !courseSection || courseCode === courseSection.toLowerCase();
-                const matchesStatus = !status || itemStatus === status.toLowerCase();
-
-                return matchesSearch && matchesGender && matchesCourse && matchesStatus;
-            });
-
-            renderCourseSectionTable(filtered);
-            renderSummaryCards(filtered);
+            const filteredItems = filterCurrentPageItems(currentPageItems);
+            renderCourseSectionTable(filteredItems);
+            renderSummaryCards(filteredItems);
         }
 
-        function editRow(id) {
+        function changePage(page) {
+            if (page < 0) {
+                return;
+            }
+
+            loadStudentCourseSections(page);
+        }
+
+        function editStudentCourseSection(id) {
             alert('Chức năng sửa chưa được cài đặt: ' + id);
         }
 
-        function deleteRow(id) {
+        function deleteStudentCourseSection(id) {
             alert('Chức năng xóa chưa được cài đặt: ' + id);
         }
+
+        function downloadStudentCourseSections() {
+            const link = document.createElement('a');
+            link.href = `${API_URL}/download`;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        searchInput.addEventListener('keydown', event => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                applyFilters();
+            }
+        });
     </script>
 
 </html>
