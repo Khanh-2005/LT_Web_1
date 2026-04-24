@@ -2,253 +2,104 @@
 <html lang="vi">
 
 <head>
-    <title>Quản Lý Đào Tạo</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <title>Phân công giảng viên</title>
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
-    <!--end::Accessibility Meta Tags-->
-    <!--begin::Primary Meta Tags-->
-    <meta name="title" content="AdminLTE | Dashboard v2" />
-    <meta name="author" content="ColorlibHQ" />
-    <meta name="description"
-        content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance." />
-    <meta name="keywords"
-        content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard, accessible admin panel, WCAG compliant" />
-    <!--end::Primary Meta Tags-->
-    <!--begin::Accessibility Features-->
-    <!-- Skip links will be dynamically added by accessibility.js -->
-    <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="./css/adminlte.css" as="style" />
-    <!--end::Accessibility Features-->
-    <!--begin::Fonts-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
         integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" media="print"
         onload="this.media='all'" />
-    <!--end::Fonts-->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
         crossorigin="anonymous" />
-    <!-- FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <!--end::Third Party Plugin(OverlayScrollbars)-->
-    <!--begin::Third Party Plugin(Bootstrap Icons)-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
         crossorigin="anonymous" />
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!--end::Third Party Plugin(Bootstrap Icons)-->
-    <!--begin::Required Plugin(AdminLTE)-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/adminlte.css" />
-    <!-- AdminLTE 4 -->
-    <link href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/css/adminlte.min.css" rel="stylesheet">
-    <!--end::Required Plugin(AdminLTE)-->
-    <!-- apexcharts -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
-        integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/css/adminlte.min.css">
     <style>
-        .avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin-right: 8px;
+        .page-subtitle {
+            max-width: 720px;
+        }
+
+        .search-panel {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.12), rgba(32, 201, 151, 0.12));
+            border: 1px solid rgba(13, 110, 253, 0.12);
+        }
+
+        .table-card .table> :not(caption)>*>* {
+            vertical-align: middle;
+        }
+
+        .metric-card {
+            border: 0;
+            box-shadow: 0 10px 30px rgba(31, 45, 61, 0.08);
+        }
+
+        .metric-label {
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #6c757d;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1;
         }
     </style>
 </head>
 
-<!DOCTYPE html>
-<html lang="vi">
-
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
-        <!-- Navbar -->
-        <!--begin::Header-->
         <nav class="app-header navbar navbar-expand bg-body">
-            <!--begin::Container-->
             <div class="container-fluid">
-                <!--begin::Start Navbar Links-->
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
                             <i class="bi bi-list"></i>
                         </a>
                     </li>
-                    <li class="nav-item d-none d-md-block"><a href="./dashboard.html" class="nav-link">Home</a></li>
-                    <li class="nav-item d-none d-md-block"><a href="./contact.html" class="nav-link">Contact</a></li>
+                    <li class="nav-item d-none d-md-block"><a href="./dashboard.html" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item d-none d-md-block"><a href="./lecturer_course_classes.html"
+                            class="nav-link active">Phân công giảng viên</a></li>
                 </ul>
-                <!--end::Start Navbar Links-->
-                <!--begin::End Navbar Links-->
+
                 <ul class="navbar-nav ms-auto">
-                    <!--begin::Navbar Search-->
-                    <li class="nav-item">
-                        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                            <i class="bi bi-search"></i>
-                        </a>
-                    </li>
-                    <!--end::Navbar Search-->
-                    <!--begin::Messages Dropdown Menu-->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                            <i class="bi bi-chat-text"></i>
-                            <span class="navbar-badge badge text-bg-danger">3</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <a href="#" class="dropdown-item">
-                                <!--begin::Message-->
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        <img src="./assets/img/user1-128x128.jpg" alt="User Avatar"
-                                            class="img-size-50 rounded-circle me-3" />
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h3 class="dropdown-item-title">
-                                            Brad Diesel
-                                            <span class="float-end fs-7 text-danger"><i
-                                                    class="bi bi-star-fill"></i></span>
-                                        </h3>
-                                        <p class="fs-7">Call me whenever you can...</p>
-                                        <p class="fs-7 text-secondary">
-                                            <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                                        </p>
-                                    </div>
-                                </div>
-                                <!--end::Message-->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <!--begin::Message-->
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        <img src="./assets/img/user8-128x128.jpg" alt="User Avatar"
-                                            class="img-size-50 rounded-circle me-3" />
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h3 class="dropdown-item-title">
-                                            John Pierce
-                                            <span class="float-end fs-7 text-secondary">
-                                                <i class="bi bi-star-fill"></i>
-                                            </span>
-                                        </h3>
-                                        <p class="fs-7">I got your message bro</p>
-                                        <p class="fs-7 text-secondary">
-                                            <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                                        </p>
-                                    </div>
-                                </div>
-                                <!--end::Message-->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <!--begin::Message-->
-                                <div class="d-flex">
-                                    <div class="flex-shrink-0">
-                                        <img src="./assets/img/user3-128x128.jpg" alt="User Avatar"
-                                            class="img-size-50 rounded-circle me-3" />
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h3 class="dropdown-item-title">
-                                            Nora Silvester
-                                            <span class="float-end fs-7 text-warning">
-                                                <i class="bi bi-star-fill"></i>
-                                            </span>
-                                        </h3>
-                                        <p class="fs-7">The subject goes here</p>
-                                        <p class="fs-7 text-secondary">
-                                            <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                                        </p>
-                                    </div>
-                                </div>
-                                <!--end::Message-->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                        </div>
-                    </li>
-                    <!--end::Messages Dropdown Menu-->
-                    <!--begin::Notifications Dropdown Menu-->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                            <i class="bi bi-bell-fill"></i>
-                            <span class="navbar-badge badge text-bg-warning">15</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <span class="dropdown-item dropdown-header">15 Notifications</span>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="bi bi-envelope me-2"></i> 4 new messages
-                                <span class="float-end text-secondary fs-7">3 mins</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="bi bi-people-fill me-2"></i> 8 friend requests
-                                <span class="float-end text-secondary fs-7">12 hours</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                                <span class="float-end text-secondary fs-7">2 days</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
-                        </div>
-                    </li>
-                    <!--end::Notifications Dropdown Menu-->
-                    <!--begin::Fullscreen Toggle-->
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-lte-toggle="fullscreen">
                             <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
                             <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
                         </a>
                     </li>
-                    <!--end::Fullscreen Toggle-->
-                    <!--begin::User Menu Dropdown-->
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img src="./assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow"
                                 alt="User Image" />
-                            <span class="d-none d-md-inline">Alexander Pierce</span>
+                            <span class="d-none d-md-inline">Quản trị viên</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <!--begin::User Image-->
                             <li class="user-header text-bg-primary">
                                 <img src="./assets/img/user2-160x160.jpg" class="rounded-circle shadow"
                                     alt="User Image" />
                                 <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2023</small>
+                                    Hệ thống quản lý đào tạo
+                                    <small>Admin workspace</small>
                                 </p>
                             </li>
-                            <!--end::User Image-->
-                            <!--begin::Menu Body-->
-                            <li class="user-body">
-                                <!--begin::Row-->
-                                <div class="row">
-                                    <div class="col-4 text-center"><a href="#">Followers</a></div>
-                                    <div class="col-4 text-center"><a href="#">Sales</a></div>
-                                    <div class="col-4 text-center"><a href="#">Friends</a></div>
-                                </div>
-                                <!--end::Row-->
-                            </li>
-                            <!--end::Menu Body-->
-                            <!--begin::Menu Footer-->
                             <li class="user-footer">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="./dashboard.html" class="btn btn-default btn-flat">Dashboard</a>
                                 <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
                             </li>
-                            <!--end::Menu Footer-->
                         </ul>
                     </li>
-                    <!--end::User Menu Dropdown-->
                 </ul>
-                <!--end::End Navbar Links-->
             </div>
-            <!--end::Container-->
         </nav>
-        <!--end::Header-->
 
-        <!-- Sidebar -->
-        <!--begin::Sidebar-->
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
             <div class="sidebar-brand">
                 <a href="./dashboard.html" class="brand-link">
@@ -495,7 +346,7 @@
                                 <li class="nav-item"><a href="./notifications.html" class="nav-link">
                                         <p>Notifications</p>
                                     </a></li>
-                                / <li class="nav-item"><a href="./settings.html" class="nav-link">
+                                <li class="nav-item"><a href="./settings.html" class="nav-link">
                                         <p>Settings</p>
                                     </a></li>
                                 <li class="nav-item"><a href="./logs.html" class="nav-link">
@@ -527,186 +378,263 @@
                 </nav>
             </div>
         </aside>
-        <!--end::Sidebar-->
 
-        <!-- Content -->
-        <div class="content-wrapper p-3">
-            <section class="content">
-
+        <main class="app-main">
+            <div class="app-content-header">
                 <div class="container-fluid">
-                    <h3>Danh sách sinh viên</h3>
-
-                    <button class="btn btn-primary mb-3" onclick="openAddModal()">
-                        <i class="fa fa-plus"></i> Thêm sinh viên
-                    </button>
-
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Code</th>
-                                <th>Họ tên</th>
-                                <th>Giới tính</th>
-                                <th>Ngày sinh</th>
-                                <th>Địa chỉ</th>
-                                <th>Trạng thái</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="studentTable"></tbody>
-                    </table>
-                </div>
-
-            </section>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="studentModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 id="modalTitle">Thêm sinh viên</h5>
-                        <button class="close" data-dismiss="modal">&times;</button>
-                    </div>
-
-                    <div class="modal-body">
-                        <input type="hidden" id="studentId">
-
-                        <div class="form-group">
-                            <label>Code</label>
-                            <input id="code" class="form-control">
+                    <div class="row align-items-center">
+                        <div class="col-sm-8">
+                            <h1 class="mb-1">Phân công giảng viên phụ trách lớp học phần</h1>
                         </div>
-
-                        <div class="form-group">
-                            <label>Fullname</label>
-                            <input id="fullname" class="form-control">
+                        <div class="col-sm-4">
+                            <ol class="breadcrumb float-sm-end mb-0">
+                                <li class="breadcrumb-item"><a href="./dashboard.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Lecturer Assignments</li>
+                            </ol>
                         </div>
-
-                        <div class="form-group">
-                            <label>Gender</label>
-                            <select id="gender" class="form-control">
-                                <option>Nam</option>
-                                <option>Nữ</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Address</label>
-                            <input id="address" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button class="btn btn-success" onclick="saveStudent()">Save</button>
-                        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div class="app-content">
+                <div class="container-fluid">
+                    <div class="row g-3 mb-4">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card metric-card">
+                                <div class="card-body">
+                                    <div class="metric-label">Tổng phân công</div>
+                                    <div id="totalAssignments" class="metric-value mt-2">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card metric-card">
+                                <div class="card-body">
+                                    <div class="metric-label">Giảng viên</div>
+                                    <div id="totalLecturers" class="metric-value mt-2">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card metric-card">
+                                <div class="card-body">
+                                    <div class="metric-label">Lớp học phần</div>
+                                    <div id="totalCourseSections" class="metric-value mt-2">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card metric-card">
+                                <div class="card-body">
+                                    <div class="metric-label">Đang mở</div>
+                                    <div id="totalOpenSections" class="metric-value mt-2">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card search-panel mb-4">
+                        <div class="card-body">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-lg-8">
+                                    <label for="searchInput" class="form-label fw-semibold">Tìm kiếm nhanh</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                        <input type="text" id="searchInput" class="form-control"
+                                            placeholder="Tìm theo mã giảng viên, họ tên hoặc mã lớp học phần">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="small text-secondary">
+                                        Dữ liệu được lấy trực tiếp từ API `lecturer-course-classes` và cập nhật khi tải
+                                        trang.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="loadingSpinner" class="card table-card">
+                        <div class="card-body text-center py-5">
+                            <div class="spinner-border text-primary mb-3" role="status"></div>
+                            <p class="text-secondary mb-0">Đang tải dữ liệu phân công giảng viên...</p>
+                        </div>
+                    </div>
+
+                    <div id="tableWrapper" class="card table-card" style="display:none;">
+                        <div class="card-header border-0">
+                            <h3 class="card-title mb-0">Danh sách phân công</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Mã GV</th>
+                                        <th>Họ tên giảng viên</th>
+                                        <th>Học vị / Học hàm</th>
+                                        <th>Email</th>
+                                        <th>Vai trò</th>
+                                        <th>Mã lớp HP</th>
+                                        <th>Thông tin lớp</th>
+                                        <th>Loại lớp</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mainTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="emptyState" class="card table-card" style="display:none;">
+                        <div class="card-body text-center py-5">
+                            <i class="fa fa-inbox fa-3x text-muted mb-3"></i>
+                            <p class="text-muted mb-0">Không có dữ liệu phù hợp.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/js/adminlte.min.js"></script>
-
     <script>
-        const API_URL = "http://localhost:8080/api/students";
+        const API_URL = "/api/lecturer-course-classes";
 
-        // Load data
-        async function loadStudents() {
-            const res = await fetch(API_URL);
-            const data = await res.json();
+        let allData = [];
+
+        function normalizeItem(item) {
+            const employee = item.employee || {};
+            const courseSection = item.courseSection || {};
+
+            return {
+                ...item,
+                employeeCode: employee.code || item.employeeCode || "",
+                employeeFullName: employee.fullName || employee.fullname || item.employeeFullName || "",
+                employeeEmail: employee.email || item.employeeEmail || "",
+                academicDegree: employee.academicDegree || item.academicDegree || "",
+                academicTitle: employee.academicTitle || item.academicTitle || "",
+                courseSectionId: courseSection.id || item.courseSectionId || item.courseClassId || "",
+                courseSectionCode: courseSection.code || item.courseSectionCode || "",
+                courseSectionName: courseSection.note || courseSection.name || item.courseSectionName || "",
+                classType: courseSection.classType || item.classType || "",
+                status: courseSection.status || item.status || ""
+            };
+        }
+
+        function classTypeBadge(type) {
+            const map = {
+                theory: '<span class="badge text-bg-primary">Lý thuyết</span>',
+                lab: '<span class="badge text-bg-warning">Thực hành</span>',
+                hybrid: '<span class="badge text-bg-info">Hybrid</span>',
+                thesis: '<span class="badge text-bg-dark">Thesis</span>'
+            };
+            return map[type?.toLowerCase()] || `<span class="badge text-bg-secondary">${type || "—"}</span>`;
+        }
+
+        function statusBadge(status) {
+            const map = {
+                open: '<span class="badge text-bg-success">Đang mở</span>',
+                planned: '<span class="badge text-bg-info">Kế hoạch</span>',
+                closed: '<span class="badge text-bg-danger">Đã đóng</span>',
+                canceled: '<span class="badge text-bg-dark">Hủy</span>'
+            };
+            return map[status?.toLowerCase()] || `<span class="badge text-bg-secondary">${status || "—"}</span>`;
+        }
+
+        function updateMetrics(data) {
+            const uniqueLecturers = new Set(data.map(item => item.employeeId || item.employeeCode).filter(Boolean));
+            const uniqueSections = new Set(data.map(item => item.courseSectionId || item.courseSectionCode).filter(Boolean));
+            const totalOpen = data.filter(item => (item.status || "").toLowerCase() === "open").length;
+
+            document.getElementById("totalAssignments").textContent = data.length;
+            document.getElementById("totalLecturers").textContent = uniqueLecturers.size;
+            document.getElementById("totalCourseSections").textContent = uniqueSections.size;
+            document.getElementById("totalOpenSections").textContent = totalOpen;
+        }
+
+        function renderTable(data) {
+            const spinner = document.getElementById("loadingSpinner");
+            const wrapper = document.getElementById("tableWrapper");
+            const empty = document.getElementById("emptyState");
+            const tbody = document.getElementById("mainTable");
+
+            spinner.style.display = "none";
+            updateMetrics(data);
+
+            if (!data || data.length === 0) {
+                wrapper.style.display = "none";
+                empty.style.display = "block";
+                return;
+            }
+
+            empty.style.display = "none";
+            wrapper.style.display = "block";
 
             let html = "";
-            data.forEach(s => {
+            data.forEach((item, index) => {
+                const degree = [item.academicDegree, item.academicTitle].filter(Boolean).join(" / ") || "—";
+                const sectionInfo = item.courseSectionName && item.courseSectionName !== item.courseSectionCode
+                    ? item.courseSectionName
+                    : (item.courseSectionCode || "—");
+
                 html += `
                 <tr>
-                    <td>${s.code}</td>
-                    <td>${s.fullname}</td>
-                    <td>${s.gender}</td>
-                    <td>${formatDate(s.date_of_birth)}</td>
-                    <td>${s.address}</td>
-                    <td>${s.status}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" onclick='editStudent(${JSON.stringify(s)})'>
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.id}')">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </td>
+                    <td>${index + 1}</td>
+                    <td><span class="fw-semibold">${item.employeeCode || "—"}</span></td>
+                    <td>${item.employeeFullName || "—"}</td>
+                    <td>${degree}</td>
+                    <td>${item.employeeEmail || "—"}</td>
+                    <td><span class="badge text-bg-light border">${item.role || "—"}</span></td>
+                    <td>${item.courseSectionCode || "—"}</td>
+                    <td>${sectionInfo}</td>
+                    <td>${classTypeBadge(item.classType)}</td>
+                    <td>${statusBadge(item.status)}</td>
                 </tr>
             `;
             });
 
-            document.getElementById("studentTable").innerHTML = html;
+            tbody.innerHTML = html;
         }
 
-        function formatDate(date) {
-            return date ? new Date(date).toLocaleDateString() : "";
+        async function loadData() {
+            try {
+                const res = await fetch(API_URL);
+                if (!res.ok) throw new Error("Lỗi API: " + res.status);
+                allData = (await res.json()).map(normalizeItem);
+                renderTable(allData);
+            } catch (err) {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("emptyState").style.display = "block";
+                document.getElementById("emptyState").innerHTML = `
+                <div class="card-body text-center py-5">
+                    <i class="fa fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                    <p class="text-danger mb-0">Lỗi tải dữ liệu: ${err.message}</p>
+                </div>
+            `;
+            }
         }
 
-        // Add
-        function openAddModal() {
-            document.getElementById("modalTitle").innerText = "Thêm sinh viên";
-            document.getElementById("studentId").value = "";
-            $("#studentModal").modal("show");
-        }
-
-        // Edit
-        function editStudent(s) {
-            document.getElementById("modalTitle").innerText = "Sửa sinh viên";
-            document.getElementById("studentId").value = s.id;
-            document.getElementById("code").value = s.code;
-            document.getElementById("fullname").value = s.fullname;
-            document.getElementById("gender").value = s.gender;
-            document.getElementById("address").value = s.address;
-
-            $("#studentModal").modal("show");
-        }
-
-        // Save (Add + Update)
-        async function saveStudent() {
-            const id = document.getElementById("studentId").value;
-
-            const student = {
-                code: document.getElementById("code").value,
-                fullname: document.getElementById("fullname").value,
-                gender: document.getElementById("gender").value,
-                address: document.getElementById("address").value
-            };
-
-            if (id) {
-                // UPDATE
-                await fetch(API_URL + "/" + id, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(student)
-                });
-            } else {
-                // CREATE
-                await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(student)
-                });
+        document.getElementById("searchInput").addEventListener("input", function () {
+            const keyword = this.value.toLowerCase().trim();
+            if (!keyword) {
+                renderTable(allData);
+                return;
             }
 
-            $("#studentModal").modal("hide");
-            loadStudents();
-        }
+            const filtered = allData.filter(item =>
+                (item.employeeFullName || "").toLowerCase().includes(keyword) ||
+                (item.employeeCode || "").toLowerCase().includes(keyword) ||
+                (item.courseSectionCode || "").toLowerCase().includes(keyword) ||
+                (item.courseSectionName || "").toLowerCase().includes(keyword) ||
+                (item.role || "").toLowerCase().includes(keyword)
+            );
+            renderTable(filtered);
+        });
 
-        // Delete
-        async function deleteStudent(id) {
-            if (!confirm("Bạn có chắc muốn xóa?")) return;
-
-            await fetch(API_URL + "/" + id, {
-                method: "DELETE"
-            });
-
-            loadStudents();
-        }
-
-        // Init
-        loadStudents();
+        loadData();
     </script>
+</body>
 
 </html>
