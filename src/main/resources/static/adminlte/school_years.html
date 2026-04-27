@@ -1,0 +1,699 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>School Years</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/adminlte.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/css/adminlte.min.css">
+    <style>
+        body {
+            font-family: "Source Sans 3", sans-serif;
+        }
+
+        .summary-card {
+            border: 1px solid #e9ecef;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .05);
+        }
+
+        .summary-label {
+            font-size: .78rem;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: #6c757d;
+        }
+
+        .summary-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .toolbar-card,
+        .table-card {
+            border: 1px solid #e9ecef;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .05);
+        }
+
+        .table-card .table> :not(caption)>*>* {
+            vertical-align: middle;
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+
+        .table-card thead th {
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            color: #6c757d;
+            background: #f8f9fa;
+        }
+
+        .table-card .card-header {
+            background: #fff;
+        }
+
+        .col-id {
+            width: 70px;
+        }
+
+        .col-code {
+            width: 110px;
+        }
+
+        .col-name {
+            width: 150px;
+        }
+
+        .col-description {
+            width: 220px;
+        }
+
+        .col-note {
+            width: 180px;
+        }
+
+        .col-date {
+            width: 130px;
+        }
+
+        .col-status {
+            width: 110px;
+        }
+
+        .col-action {
+            width: 150px;
+        }
+    </style>
+</head>
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+        <nav class="app-header navbar navbar-expand bg-body">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"><i
+                                class="bi bi-list"></i></a></li>
+                    <li class="nav-item d-none d-md-block"><a href="./dashboard.html" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item d-none d-md-block"><a href="./school_years.html" class="nav-link active">School
+                            Years</a></li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+                            <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                            <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display:none"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+            <div class="sidebar-brand">
+                <a href="./dashboard.html" class="brand-link">
+                    <img src="./assets/img/AdminLTELogo.png" class="brand-image opacity-75 shadow" />
+                    <span class="brand-text fw-light">Quản lý đào tạo</span>
+                </a>
+            </div>
+
+            <div class="sidebar-wrapper">
+                <nav class="mt-2">
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" data-accordion="false">
+
+                        <!-- DASHBOARD -->
+                        <li class="nav-item">
+                            <a href="./dashboard.html" class="nav-link active">
+                                <i class="nav-icon bi bi-speedometer"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+
+                        <!-- N1 USER -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-people"></i>
+                                <p>User & Auth <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./users.html" class="nav-link">
+                                        <p>Users</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./roles.html" class="nav-link">
+                                        <p>Roles</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./permissions.html" class="nav-link">
+                                        <p>Permissions</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./user_roles.html" class="nav-link">
+                                        <p>User Roles</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N2 STUDENT -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-mortarboard"></i>
+                                <p>Student <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./students.html" class="nav-link">
+                                        <p>Students</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./student_profiles.html" class="nav-link">
+                                        <p>Profiles</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./student_classes.html" class="nav-link">
+                                        <p>Classes</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N3 EMPLOYEE -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-person-badge"></i>
+                                <p>Employee <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./employees.html" class="nav-link">
+                                        <p>Employees</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./departments.html" class="nav-link">
+                                        <p>Departments</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./positions.html" class="nav-link">
+                                        <p>Positions</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N4 PROGRAM -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-book"></i>
+                                <p>Program & Course <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./training_programs.html" class="nav-link">
+                                        <p>Training Programs</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./courses.html" class="nav-link">
+                                        <p>Courses</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./majors.html" class="nav-link">
+                                        <p>Majors</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N5 SEMESTER -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-calendar"></i>
+                                <p>Semester <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./academic_years.html" class="nav-link">
+                                        <p>Academic Years</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./school_years.html" class="nav-link">
+                                        <p>School Years</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./semesters.html" class="nav-link">
+                                        <p>Semesters</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./course_sections.html" class="nav-link">
+                                        <p>Course Sections</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./student_course_sections.html" class="nav-link">
+                                        <p>Student Course Sections</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./lecturer_course_classes.html" class="nav-link">
+                                        <p>Lecturer Course Classes</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N6 ENROLLMENT -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-pencil-square"></i>
+                                <p>Enrollment <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./registration_periods.html" class="nav-link">
+                                        <p>Registration Periods</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./course_registrations.html" class="nav-link">
+                                        <p>Course Registrations</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N7 SCHEDULE -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-clock"></i>
+                                <p>Schedule & Room <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./schedule.html" class="nav-link">
+                                        <p>Schedule</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./rooms.html" class="nav-link">
+                                        <p>Rooms</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./buildings.html" class="nav-link">
+                                        <p>Buildings</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N8 GRADES -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-journal-check"></i>
+                                <p>Grades <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./grade_components.html" class="nav-link">
+                                        <p>Grade Components</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./student_component_grades.html" class="nav-link">
+                                        <p>Student Grades</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./grade_scales.html" class="nav-link">
+                                        <p>Grade Scales</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N9 FINANCE -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-cash"></i>
+                                <p>Finance <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./tuition.html" class="nav-link">
+                                        <p>Tuition</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./student_tuitions.html" class="nav-link">
+                                        <p>Student Tuitions</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./payments.html" class="nav-link">
+                                        <p>Payments</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N10 EXAM -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-file-earmark-text"></i>
+                                <p>Exam <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./exams.html" class="nav-link">
+                                        <p>Exams</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./exam_types.html" class="nav-link">
+                                        <p>Exam Types</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./exam-rooms.html" class="nav-link">
+                                        <p>Exam Rooms</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./exam_results.html" class="nav-link">
+                                        <p>Exam Results</p>
+                                    </a></li>
+
+                            </ul>
+                        </li>
+
+                        <!-- N11 GRADUATION -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-mortarboard"></i>
+                                <p>Graduation <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./graduation_conditions.html" class="nav-link">
+                                        <p>Graduation Conditions</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./graduation_results.html" class="nav-link">
+                                        <p>Graduation Results</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N12 SYSTEM -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-gear"></i>
+                                <p>System <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./notifications.html" class="nav-link">
+                                        <p>Notifications</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./settings.html" class="nav-link">
+                                        <p>Settings</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./logs.html" class="nav-link">
+                                        <p>Logs</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- N13 EMAIL & CONTACT -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon bi bi-envelope"></i>
+                                <p>Email & Contact <i class="right bi bi-chevron-down"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="./email_templates.html" class="nav-link">
+                                        <p>Email Templates</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./email_achievements.html" class="nav-link">
+                                        <p>Email Achievements</p>
+                                    </a></li>
+                                <li class="nav-item"><a href="./email_log.html" class="nav-link">
+                                        <p>Email Log</p>
+                                    </a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <main class="app-main">
+            <div class="app-content-header">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-sm-8">
+                            <h1 class="mb-1">School Years</h1>
+                        </div>
+                        <div class="col-sm-4">
+                            <ol class="breadcrumb float-sm-end mb-0">
+                                <li class="breadcrumb-item"><a href="./dashboard.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active">School Years</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="app-content">
+                <div class="container-fluid">
+                    <div class="row g-3 mb-4">
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card summary-card">
+                                <div class="card-body">
+                                    <div class="summary-label">Tổng niên khóa</div>
+                                    <div id="totalSchoolYears" class="summary-value mt-2">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card summary-card">
+                                <div class="card-body">
+                                    <div class="summary-label">Đang hoạt động</div>
+                                    <div id="activeSchoolYears" class="summary-value mt-2">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card summary-card">
+                                <div class="card-body">
+                                    <div class="summary-label">Có mô tả</div>
+                                    <div id="describedSchoolYears" class="summary-value mt-2">0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="card summary-card">
+                                <div class="card-body">
+                                    <div class="summary-label">Có ghi chú</div>
+                                    <div id="notedSchoolYears" class="summary-value mt-2">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card toolbar-card mb-4">
+                        <div class="card-body">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-lg-8">
+                                    <label for="searchInput" class="form-label fw-semibold">Tìm kiếm nhanh</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                        <input id="searchInput" type="text" class="form-control"
+                                            placeholder="Tìm theo mã, tên, mô tả hoặc ghi chú">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <button
+                                        class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2"
+                                        onclick="openAdd()">
+                                        <i class="bi bi-plus-lg"></i> Add School Year
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card table-card">
+                        <div class="card-header border-0">
+                            <h3 class="card-title mb-0">Danh sách niên khóa</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="col-id">ID</th>
+                                        <th class="col-code">Code</th>
+                                        <th class="col-name">Name</th>
+                                        <th class="col-description">Description</th>
+                                        <th class="col-note">Note</th>
+                                        <th class="col-date">Start Date</th>
+                                        <th class="col-date">End Date</th>
+                                        <th class="col-status">Active</th>
+                                        <th class="col-action text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="schoolYearTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="schoolYearModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Add School Year</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="formId">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Code</label>
+                            <input type="text" id="formCode" class="form-control" placeholder="VD: SY2024">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Name</label>
+                            <input type="text" id="formName" class="form-control" placeholder="VD: Năm học 2024-2025">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Start Date</label>
+                            <input type="date" id="formStartDate" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">End Date</label>
+                            <input type="date" id="formEndDate" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Status</label>
+                            <select id="formStatus" class="form-select">
+                                <option value="true">Active</option>
+                                <option value="false">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Description</label>
+                            <textarea id="formDescription" class="form-control" rows="2"
+                                placeholder="Mô tả..."></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Note</label>
+                            <textarea id="formNote" class="form-control" rows="2" placeholder="Ghi chú..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">
+                        <i class="bi bi-save me-1"></i> Lưu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/js/adminlte.min.js"></script>
+    <script>
+        const API = "http://localhost:8080/api/school-years";
+        let schoolYearData = [];
+
+        function showModal() {
+            const m = bootstrap.Modal.getOrCreateInstance(document.getElementById("schoolYearModal"), { backdrop: true, keyboard: true });
+            m.show();
+        }
+        function hideModal() {
+            const m = bootstrap.Modal.getInstance(document.getElementById("schoolYearModal"));
+            if (m) m.hide();
+            setTimeout(() => {
+                document.querySelectorAll(".modal-backdrop").forEach(e => e.remove());
+                document.body.classList.remove("modal-open");
+                document.body.style.removeProperty("overflow");
+                document.body.style.removeProperty("padding-right");
+            }, 300);
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return "";
+            return new Date(dateStr).toLocaleDateString("vi-VN");
+        }
+        function toInputDate(dateStr) {
+            if (!dateStr) return "";
+            try { return new Date(dateStr).toISOString().split("T")[0]; } catch { return ""; }
+        }
+
+        function updateMetrics(data) {
+            document.getElementById("totalSchoolYears").textContent = data.length;
+            document.getElementById("activeSchoolYears").textContent = data.filter(i => i.isActive).length;
+            document.getElementById("describedSchoolYears").textContent = data.filter(i => i.description).length;
+            document.getElementById("notedSchoolYears").textContent = data.filter(i => i.note).length;
+        }
+
+        function renderTable(data) {
+            updateMetrics(data);
+            let html = "";
+            data.forEach(item => {
+                html += `
+        <tr>
+            <td>${item.id}</td>
+            <td><span class="fw-semibold">${item.code || ""}</span></td>
+            <td>${item.name || ""}</td>
+            <td>${item.description || ""}</td>
+            <td>${item.note || ""}</td>
+            <td>${formatDate(item.startDate)}</td>
+            <td>${formatDate(item.endDate)}</td>
+            <td>${item.isActive ? '<span class="badge text-bg-success">Active</span>' : '<span class="badge text-bg-secondary">Inactive</span>'}</td>
+            <td class="text-end">
+                <button onclick="openEdit('${item.id}')" class="btn btn-warning btn-sm">Edit</button>
+                <button onclick="deleteData('${item.id}')" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+        </tr>`;
+            });
+            document.getElementById("schoolYearTable").innerHTML = html;
+        }
+
+        function loadData() {
+            fetch(API)
+                .then(res => res.json())
+                .then(data => { schoolYearData = data; renderTable(data); })
+                .catch(err => console.error("Lỗi load:", err));
+        }
+
+        function resetForm() {
+            ["formId", "formCode", "formName", "formDescription", "formNote", "formStartDate", "formEndDate"].forEach(id => {
+                document.getElementById(id).value = "";
+            });
+            document.getElementById("formStatus").value = "true";
+        }
+
+        function openAdd() {
+            resetForm();
+            document.getElementById("modalTitle").textContent = "Add School Year";
+            showModal();
+        }
+
+        function openEdit(id) {
+            const item = schoolYearData.find(i => i.id === id);
+            if (!item) return;
+            document.getElementById("modalTitle").textContent = "Edit School Year";
+            document.getElementById("formId").value = item.id;
+            document.getElementById("formCode").value = item.code || "";
+            document.getElementById("formName").value = item.name || "";
+            document.getElementById("formDescription").value = item.description || "";
+            document.getElementById("formNote").value = item.note || "";
+            document.getElementById("formStartDate").value = toInputDate(item.startDate);
+            document.getElementById("formEndDate").value = toInputDate(item.endDate);
+            document.getElementById("formStatus").value = item.isActive ? "true" : "false";
+            showModal();
+        }
+
+        function submitForm() {
+            const id = document.getElementById("formId").value;
+            const payload = {
+                code: document.getElementById("formCode").value.trim(),
+                name: document.getElementById("formName").value.trim(),
+                description: document.getElementById("formDescription").value.trim(),
+                note: document.getElementById("formNote").value.trim(),
+                startDate: document.getElementById("formStartDate").value || null,
+                endDate: document.getElementById("formEndDate").value || null,
+                isActive: document.getElementById("formStatus").value === "true"
+            };
+            const isEdit = !!id;
+            fetch(isEdit ? `${API}/${id}` : API, {
+                method: isEdit ? "PUT" : "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).then(res => {
+                if (!res.ok) return res.text().then(t => { throw new Error(t); });
+                hideModal();
+                loadData();
+            }).catch(err => alert("Lỗi: " + err.message));
+        }
+
+        function deleteData(id) {
+            if (confirm("Xác nhận xóa?")) {
+                fetch(`${API}/${id}`, { method: "DELETE" }).then(loadData).catch(err => alert("Lỗi: " + err));
+            }
+        }
+
+        document.getElementById("searchInput").addEventListener("input", function () {
+            const kw = this.value.toLowerCase().trim();
+            if (!kw) { renderTable(schoolYearData); return; }
+            renderTable(schoolYearData.filter(item =>
+                (item.code || "").toLowerCase().includes(kw) ||
+                (item.name || "").toLowerCase().includes(kw) ||
+                (item.description || "").toLowerCase().includes(kw) ||
+                (item.note || "").toLowerCase().includes(kw)
+            ));
+        });
+
+        loadData();
+    </script>
+</body>
+
+</html>
