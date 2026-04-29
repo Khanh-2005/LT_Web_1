@@ -71,3 +71,28 @@
 
 // // 7. Pagination
 // }
+
+package com.example.demo.employees.controller;
+
+import com.example.demo.employees.model.entity.Employees;
+import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/employees")
+@CrossOrigin
+public class EmployeesController {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @GetMapping
+    public List<Employees> getAll() {
+        return em.createQuery(
+            "SELECT e FROM Employees e WHERE e.isActive = true AND e.deletedAt IS NULL",
+            Employees.class
+        ).getResultList();
+    }
+}
