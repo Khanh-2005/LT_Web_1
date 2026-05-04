@@ -917,7 +917,7 @@
         function resetForm() {
             document.getElementById("courseClassForm").reset();
             document.getElementById("classId").value = "";
-            document.getElementById("courseClassModalLabel").textContent = "Them lop hoc phan";
+            document.getElementById("courseClassModalLabel").textContent = "Thêm Lớp Học Phần";
             document.getElementById("status").value = "open";
         }
 
@@ -1016,7 +1016,7 @@
                 document.getElementById("maxStudent").value = item.maxStudents ?? "";
                 document.getElementById("minStudent").value = item.minStudents ?? "";
                 document.getElementById("status").value = item.status ?? "open";
-                document.getElementById("courseClassModalLabel").textContent = "Sua lop hoc phan";
+                document.getElementById("courseClassModalLabel").textContent = "Sửa Lớp Học Phần";
                 openModal();
             } catch (error) {
                 console.error("Khong tai duoc chi tiet lop hoc phan:", error);

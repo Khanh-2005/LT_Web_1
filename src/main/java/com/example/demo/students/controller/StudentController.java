@@ -3,6 +3,7 @@ package com.example.demo.students.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.students.model.entity.Student;
 import com.example.demo.students.service.StudentService;
 
-
-
 @RestController
 @RequestMapping("/api/students")
 @CrossOrigin // cho phép frontend gọi
@@ -30,41 +29,64 @@ public class StudentController {
         this.service = service;
     }
 
-    // GET ALL
+    // 1. GET ALL
     @GetMapping
     public List<Student> getAll() {
         return service.getAll();
     }
 
-    // GET BY ID
+    // 2. GET BY ID
     @GetMapping("/{id}")
     public Student getById(@PathVariable UUID id) {
         return service.getById(id);
     }
 
-    // CREATE
+    // 3. CREATE
     @PostMapping
     public Student create(@RequestBody Student student) {
         return service.create(student);
     }
 
-    // UPDATE
+    // 4. UPDATE
     @PutMapping("/{id}")
     public Student update(@PathVariable UUID id,
-                          @RequestBody Student student) {
+            @RequestBody Student student) {
         return service.update(id, student);
     }
 
-    // DELETE
+    // 5. SOFT DELETE
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
-        service.delete(id);
+    public void softDelete(@PathVariable UUID id) {
+        service.softDelete(id);
     }
 
-    // SEARCH BY NAME
+    // 6. SEARCH
     @GetMapping("/search")
-    public List<Student> search(@RequestParam String full_name) {
-        return service.search(full_name);
+    public List<Student> search(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String code,
+            @RequestParam(required = false) String fullname,
+            @RequestParam(name = "full_name", required = false) String fullName,
+            @RequestParam(required = false) String gender,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) Boolean isActive) {
+        String effectiveFullname = fullname != null ? fullname : fullName;
+        return service.search(keyword, code, effectiveFullname, gender, status, isActive);
     }
 
+    // 7. PAGINATION
+    @GetMapping("/paged")
+    public Page<Student> searchPaged(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String code,
+            @RequestParam(required = false) String fullname,
+            @RequestParam(name = "full_name", required = false) String fullName,
+            @RequestParam(required = false) String gender,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) Boolean isActive,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size) {
+        String effectiveFullname = fullname != null ? fullname : fullName;
+        return service.searchPaged(keyword, code, effectiveFullname, gender, status, isActive, page, size);
+    }
 }
