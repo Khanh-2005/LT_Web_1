@@ -11,29 +11,29 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.students.model.entity.Student;
-import com.example.demo.students.repository.StudentRepository;
+import com.example.demo.students.model.entity.Students;
+import com.example.demo.students.repository.StudentsRepository;
 
 @Service
-public class StudentService {
-    private final StudentRepository repo;
+public class StudentsService {
+    private final StudentsRepository repo;
 
-    public StudentService(StudentRepository repo) {
+    public StudentsService(StudentsRepository repo) {
         this.repo = repo;
     }
 
     // 1. GET ALL
-    public List<Student> getAll() {
+    public List<Students> getAll() {
         return repo.findByDeletedAtIsNull();
     }
 
     // 2. GET BY ID
-    public Student getById(UUID id) {
+    public Students getById(UUID id) {
         return repo.findByIdAndDeletedAtIsNull(id).orElse(null);
     }
 
     // 3. CREATE
-    public Student create(Student student) {
+    public Students create(Students student) {
         LocalDateTime now = LocalDateTime.now();
         student.setId(null);
         student.setDeletedAt(null);
@@ -49,8 +49,8 @@ public class StudentService {
     }
 
     // 4. UPDATE
-    public Student update(UUID id, Student student) {
-        Student old = getById(id);
+    public Students update(UUID id, Students student) {
+        Students old = getById(id);
         if (old == null) {
             return null;
         }
@@ -88,7 +88,7 @@ public class StudentService {
 
     // 5. SOFT DELETE
     public void softDelete(UUID id) {
-        Student student = getById(id);
+        Students student = getById(id);
         if (student == null) {
             return;
         }
@@ -101,13 +101,13 @@ public class StudentService {
     }
 
     // 6. SEARCH
-    public List<Student> search(String keyword, String code, String fullname, String gender, String status,
+    public List<Students> search(String keyword, String code, String fullname, String gender, String status,
             Boolean isActive) {
         return repo.findAll(buildSearchSpecification(keyword, code, fullname, gender, status, isActive));
     }
 
     // 7. PAGINATION
-    public Page<Student> searchPaged(String keyword, String code, String fullname, String gender, String status,
+    public Page<Students> searchPaged(String keyword, String code, String fullname, String gender, String status,
             Boolean isActive, int page, int size) {
         Pageable pageable = PageRequest.of(Math.max(page, 0), Math.max(size, 1), Sort.by(Sort.Direction.ASC, "code"));
         return repo.findAll(buildSearchSpecification(keyword, code, fullname, gender, status, isActive), pageable);
@@ -119,9 +119,10 @@ public class StudentService {
     }
 
     // BUILD DYNAMIC SPECIFICATION FOR SEARCH
-    private Specification<Student> buildSearchSpecification(String keyword, String code, String fullname, String gender,
+    private Specification<Students> buildSearchSpecification(String keyword, String code, String fullname,
+            String gender,
             String status, Boolean isActive) {
-        Specification<Student> spec = (root, query, cb) -> cb.isNull(root.get("deletedAt"));
+        Specification<Students> spec = (root, query, cb) -> cb.isNull(root.get("deletedAt"));
 
         if (hasText(keyword)) {
             String pattern = "%" + keyword.trim().toLowerCase() + "%";

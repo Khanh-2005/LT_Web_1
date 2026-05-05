@@ -1,7 +1,7 @@
 package com.example.demo.lecturer_course_classes.controller;
 
 import com.example.demo.lecturer_course_classes.model.entity.LecturerCourseClasses;
-import com.example.demo.lecturer_course_classes.service.LecturerCourseClassService;
+import com.example.demo.lecturer_course_classes.service.LecturerCourseClassesService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,11 +11,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/lecturer-course-classes")
 @CrossOrigin
-public class LecturerCourseClassController {
+public class LecturerCourseClassesController {
 
-    private final LecturerCourseClassService service;
+    private final LecturerCourseClassesService service;
 
-    public LecturerCourseClassController(LecturerCourseClassService service) {
+    public LecturerCourseClassesController(LecturerCourseClassesService service) {
         this.service = service;
     }
 

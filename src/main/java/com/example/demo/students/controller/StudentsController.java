@@ -15,42 +15,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.students.model.entity.Student;
-import com.example.demo.students.service.StudentService;
+import com.example.demo.students.model.entity.Students;
+import com.example.demo.students.service.StudentsService;
 
 @RestController
 @RequestMapping("/api/students")
 @CrossOrigin // cho phép frontend gọi
-public class StudentController {
+public class StudentsController {
 
-    private final StudentService service;
+    private final StudentsService service;
 
-    public StudentController(StudentService service) {
+    public StudentsController(StudentsService service) {
         this.service = service;
     }
 
     // 1. GET ALL
     @GetMapping
-    public List<Student> getAll() {
+    public List<Students> getAll() {
         return service.getAll();
     }
 
     // 2. GET BY ID
     @GetMapping("/{id}")
-    public Student getById(@PathVariable UUID id) {
+    public Students getById(@PathVariable UUID id) {
         return service.getById(id);
     }
 
     // 3. CREATE
     @PostMapping
-    public Student create(@RequestBody Student student) {
+    public Students create(@RequestBody Students student) {
         return service.create(student);
     }
 
     // 4. UPDATE
     @PutMapping("/{id}")
-    public Student update(@PathVariable UUID id,
-            @RequestBody Student student) {
+    public Students update(@PathVariable UUID id,
+            @RequestBody Students student) {
         return service.update(id, student);
     }
 
@@ -62,7 +62,7 @@ public class StudentController {
 
     // 6. SEARCH
     @GetMapping("/search")
-    public List<Student> search(
+    public List<Students> search(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String code,
             @RequestParam(required = false) String fullname,
@@ -76,7 +76,7 @@ public class StudentController {
 
     // 7. PAGINATION
     @GetMapping("/paged")
-    public Page<Student> searchPaged(
+    public Page<Students> searchPaged(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String code,
             @RequestParam(required = false) String fullname,

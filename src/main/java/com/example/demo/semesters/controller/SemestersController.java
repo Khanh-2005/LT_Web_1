@@ -1,7 +1,7 @@
 package com.example.demo.semesters.controller;
 
-import com.example.demo.semesters.model.entity.Semester;
-import com.example.demo.semesters.service.SemesterService;
+import com.example.demo.semesters.model.entity.Semesters;
+import com.example.demo.semesters.service.SemestersService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,26 +9,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/semesters")
 @CrossOrigin
-public class SemesterController {
+public class SemestersController {
 
-    private final SemesterService service;
+    private final SemestersService service;
 
-    public SemesterController(SemesterService service) {
+    public SemestersController(SemestersService service) {
         this.service = service;
     }
 
     @GetMapping
-    public List<Semester> getAll() {
+    public List<Semesters> getAll() {
         return service.getAll();
     }
 
     @PostMapping
-    public Semester create(@RequestBody Semester s) {
+    public Semesters create(@RequestBody Semesters s) {
         return service.create(s);
     }
 
     @PutMapping("/{id}")
-    public Semester update(@PathVariable String id, @RequestBody Semester s) {
+    public Semesters update(@PathVariable String id, @RequestBody Semesters s) {
         return service.update(id, s);
     }
 

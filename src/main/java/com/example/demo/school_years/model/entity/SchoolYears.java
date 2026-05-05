@@ -1,30 +1,20 @@
-package com.example.demo.semesters.model.entity;
+package com.example.demo.school_years.model.entity;
 
-import com.example.demo.school_years.model.entity.SchoolYear;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "semesters")
-public class Semester {
+@Table(name = "school_years")
+public class SchoolYears {
 
     @Id
     private String id;
 
     private String code;
     private String name;
-
-    @Column(name = "school_year_id")
-    private String schoolYearId;
-
-    @Column(name = "school_year_name")
-    private String schoolYearName;
-
-    @ManyToOne
-    @JoinColumn(name = "school_year_id", insertable = false, updatable = false)
-    private SchoolYear schoolYear;
+    private String description;
+    private String note;
 
     @Column(name = "start_date")
     private LocalDate startDate;
@@ -53,7 +43,7 @@ public class Semester {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    public Semester() {
+    public SchoolYears() {
     }
 
     // ===== GETTER SETTER =====
@@ -82,24 +72,20 @@ public class Semester {
         this.name = name;
     }
 
-    public String getSchoolYearId() {
-        return schoolYearId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSchoolYearId(String schoolYearId) {
-        this.schoolYearId = schoolYearId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getSchoolYearName() {
-        return schoolYearName;
+    public String getNote() {
+        return note;
     }
 
-    public void setSchoolYearName(String schoolYearName) {
-        this.schoolYearName = schoolYearName;
-    }
-
-    public SchoolYear getSchoolYear() {
-        return schoolYear;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public LocalDate getStartDate() {

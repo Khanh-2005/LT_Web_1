@@ -1,31 +1,31 @@
 package com.example.demo.semesters.service;
 
-import com.example.demo.semesters.model.entity.Semester;
-import com.example.demo.semesters.repository.SemesterRepository;
+import com.example.demo.semesters.model.entity.Semesters;
+import com.example.demo.semesters.repository.SemestersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class SemesterService {
+public class SemestersService {
 
-    private final SemesterRepository repo;
+    private final SemestersRepository repo;
 
-    public SemesterService(SemesterRepository repo) {
+    public SemestersService(SemestersRepository repo) {
         this.repo = repo;
     }
 
-    public List<Semester> getAll() {
+    public List<Semesters> getAll() {
         return repo.findAll();
     }
 
-    public Semester create(Semester s) {
+    public Semesters create(Semesters s) {
         s.setId(UUID.randomUUID().toString());
         return repo.save(s);
     }
 
-    public Semester update(String id, Semester s) {
+    public Semesters update(String id, Semesters s) {
         s.setId(id);
         return repo.save(s);
     }

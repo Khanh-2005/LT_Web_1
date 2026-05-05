@@ -1,7 +1,7 @@
 package com.example.demo.academic_years.service;
 
-import com.example.demo.academic_years.model.entity.AcademicYear;
-import com.example.demo.academic_years.repository.AcademicYearRepository;
+import com.example.demo.academic_years.model.entity.AcademicYears;
+import com.example.demo.academic_years.repository.AcademicYearsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,29 +10,30 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class AcademicYearService {
+public class AcademicYearsService {
 
     @Autowired
-    private AcademicYearRepository repo;
+    private AcademicYearsRepository repo;
 
-    public List<AcademicYear> getAll() {
+    public List<AcademicYears> getAll() {
         return repo.findAll();
     }
 
-    public AcademicYear getById(String id) {
+    public AcademicYears getById(String id) {
         return repo.findById(id).orElse(null);
     }
 
-    public AcademicYear create(AcademicYear body) {
+    public AcademicYears create(AcademicYears body) {
         body.setId(UUID.randomUUID().toString());
         body.setCreatedAt(new Date());
         body.setUpdatedAt(new Date());
         return repo.save(body);
     }
 
-    public AcademicYear update(String id, AcademicYear body) {
-        AcademicYear existing = repo.findById(id).orElse(null);
-        if (existing == null) return null;
+    public AcademicYears update(String id, AcademicYears body) {
+        AcademicYears existing = repo.findById(id).orElse(null);
+        if (existing == null)
+            return null;
 
         existing.setCode(body.getCode());
         existing.setName(body.getName());

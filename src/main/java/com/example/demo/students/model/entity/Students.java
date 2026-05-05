@@ -8,40 +8,38 @@ import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Table(name = "students")
-public class Student {
+public class Students {
     @Id
     @GeneratedValue
-    @UuidGenerator   // Hibernate 6+
-    @Column(columnDefinition = "UNIQUEIDENTIFIER",
-            updatable = false,
-            nullable = false)
+    @UuidGenerator // Hibernate 6+
+    @Column(columnDefinition = "UNIQUEIDENTIFIER", updatable = false, nullable = false)
     private UUID id;
 
     @Column(columnDefinition = "UNIQUEIDENTIFIER")
-	private UUID user_id;
-    
+    private UUID user_id;
+
     @Column(name = "code", length = 20)
     private String code;
-	
+
     @Column(name = "full_name", length = 100)
     private String fullname;
-    
+
     @Column(name = "date_of_birth")
-	private LocalDateTime date_of_birth;
-    
+    private LocalDateTime date_of_birth;
+
     @Column(name = "gender", length = 10)
     private String gender;
 
-	@Column(name = "personal_identification_number", length = 20)
+    @Column(name = "personal_identification_number", length = 20)
     private String personal_identification_number;
 
     @Column(name = "date_of_issue")
     private LocalDateTime date_of_issue;
 
-	@Column(name = "card_place", length = 100)
+    @Column(name = "card_place", length = 100)
     private String card_place;
 
-	@Column(name = "address", length = 300)
+    @Column(name = "address", length = 300)
     private String address;
 
     @Column(name = "current_address", length = 300)
@@ -49,13 +47,13 @@ public class Student {
 
     @Column(columnDefinition = "UNIQUEIDENTIFIER")
     private UUID academic_year_year;
-    
+
     @Column(columnDefinition = "UNIQUEIDENTIFIER")
     private UUID department_id;
 
     @Column(columnDefinition = "UNIQUEIDENTIFIER")
     private UUID major_id;
-    
+
     @Column(columnDefinition = "UNIQUEIDENTIFIER")
     private UUID training_program_id;
 
@@ -88,12 +86,16 @@ public class Student {
 
     @Column(name = "is_active")
     private Boolean isActive;
-    
 
-    public Student() {}
-    
-    public Student(UUID user_id, String code, String fullname, LocalDateTime date_of_birth, String gender,
-                   String personal_identification_number, LocalDateTime date_of_issue, String card_place, String address, String current_address, UUID academic_year_year, UUID department_id,  UUID major_id, UUID training_program_id, String status, UUID student_classe_id, LocalDateTime admission_year, LocalDateTime createdAt, LocalDateTime updatedAt, UUID createdBy, UUID updatedBy, LocalDateTime deletedAt, UUID deletedBy, Boolean isActive) {    
+    public Students() {
+    }
+
+    public Students(UUID user_id, String code, String fullname, LocalDateTime date_of_birth, String gender,
+            String personal_identification_number, LocalDateTime date_of_issue, String card_place, String address,
+            String current_address, UUID academic_year_year, UUID department_id, UUID major_id,
+            UUID training_program_id, String status, UUID student_classe_id, LocalDateTime admission_year,
+            LocalDateTime createdAt, LocalDateTime updatedAt, UUID createdBy, UUID updatedBy, LocalDateTime deletedAt,
+            UUID deletedBy, Boolean isActive) {
         this.user_id = user_id;
         this.code = code;
         this.fullname = fullname;
@@ -320,5 +322,4 @@ public class Student {
         this.isActive = isActive;
     }
 
-    
 }

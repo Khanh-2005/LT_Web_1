@@ -1,7 +1,7 @@
 package com.example.demo.lecturer_course_classes.service;
 
 import com.example.demo.lecturer_course_classes.model.entity.LecturerCourseClasses;
-import com.example.demo.lecturer_course_classes.repository.LecturerCourseClassRepository;
+import com.example.demo.lecturer_course_classes.repository.LecturerCourseClassesRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class LecturerCourseClassService {
+public class LecturerCourseClassesService {
 
-    private final LecturerCourseClassRepository repository;
+    private final LecturerCourseClassesRepository repository;
 
-    public LecturerCourseClassService(LecturerCourseClassRepository repository) {
+    public LecturerCourseClassesService(LecturerCourseClassesRepository repository) {
         this.repository = repository;
     }
 

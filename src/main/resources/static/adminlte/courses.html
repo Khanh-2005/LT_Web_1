@@ -2,7 +2,7 @@
 <html lang="vi">
 
 <head>
-    <title>Quản Lý Đào Tạo</title>
+    <title>Quản Lý Lớp Học Phần</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
@@ -57,9 +57,6 @@
     </style>
 </head>
 
-<!DOCTYPE html>
-<html lang="vi">
-
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
         <!-- Navbar -->
@@ -80,7 +77,6 @@
                 <!--end::Start Navbar Links-->
                 <!--begin::End Navbar Links-->
                 <ul class="navbar-nav ms-auto">
-                    <!--end::Navbar Search-->
                     <!--begin::Messages Dropdown Menu-->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-bs-toggle="dropdown" href="#">
@@ -492,7 +488,7 @@
                                 <li class="nav-item"><a href="./notifications.html" class="nav-link">
                                         <p>Notifications</p>
                                     </a></li>
-                                / <li class="nav-item"><a href="./settings.html" class="nav-link">
+                                <li class="nav-item"><a href="./settings.html" class="nav-link">
                                         <p>Settings</p>
                                     </a></li>
                                 <li class="nav-item"><a href="./logs.html" class="nav-link">
@@ -526,192 +522,230 @@
         </aside>
         <!--end::Sidebar-->
 
+        <!-- Content -->
         <main class="app-main p-3">
-            <!-- Cards -->
-            <div class="row my-3">
+            <!-- OVERVIEW CARDS -->
+            <div class="row g-3 mb-4">
                 <div class="col-md-3">
-                    <div class="card bg-warning text-white p-3">
-                        <h3 id="totalCourses">0</h3>
-                        <p>Tổng Sinh Viên</p>
+                    <div class="card text-white p-3 shadow-sm"
+                        style="background: linear-gradient(45deg, #f6c23e, #f4b619);">
+                        <h3 id="statTotalCourses">0</h3>
+                        <span>Tổng Học Phần</span>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card bg-danger text-white p-3">
-                        <h3 id="totalClasses">0</h3>
-                        <p>Số sinh viên đã tốt nghiệp</p>
+                    <div class="card text-white p-3 shadow-sm"
+                        style="background: linear-gradient(45deg, #e74a3b, #d62c1a);">
+                        <h3 id="statCoreCourses">0</h3>
+                        <span>Học Phần Cốt Lõi</span>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card bg-success text-white p-3">
-                        <h3 id="activeClasses">0</h3>
-                        <p>Số sinh viên đang học</p>
+                    <div class="card text-white p-3 shadow-sm"
+                        style="background: linear-gradient(45deg, #1cc88a, #17a673);">
+                        <h3 id="statAdvancedCourses">0</h3>
+                        <span>Học Phần Tự Chọn</span>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card bg-primary text-white p-3">
-                        <h3 id="inactiveClasses">0</h3>
-                        <p>Số sinh viên bị đình chỉ</p>
+                    <div class="card text-white p-3 shadow-sm"
+                        style="background: linear-gradient(45deg, #4e73df, #2e59d9);">
+                        <h3 id="statTotalCredits">0</h3>
+                        <span>Tổng Tín Chỉ</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Box -->
             <div class="card">
-                <!-- Header with Search and Add Button -->
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5>Danh Sách Sinh Viên</h5>
+                <!-- SEARCH -->
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Danh Sách Học Phần</h5>
                     <div class="d-flex align-items-center gap-2 ms-auto">
                         <input type="text" id="searchInput" class=" form-control search-input" placeholder="Search"
                             style="width: 800px; margin-right: 50px;">
                         <button class="btn btn-warning" onclick="applyFilters()">
                             <i class="fa fa-search"></i>
                         </button>
-                        <button class="btn btn-primary" onclick="openAddModal()">
+                        <button class="btn btn-primary" onclick="addSemester()">
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Filter -->
                 <div class="card-body">
+                    <!-- FILTERS -->
                     <div class="row mb-3 align-items-end">
                         <div class="col-md-2">
-                            <label class="form-label">Mã Sinh Viên</label>
-                            <input type="text" class="form-control" id="studentCodeFilter"
-                                placeholder="Nhập mã sinh viên">
+                            <label class="form-label">Mã Học Phần</label>
+                            <input type="text" id="courseCodeFilter" class="form-control">
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label">Tên Sinh Viên</label>
-                            <input type="text" class="form-control" id="studentNameFilter"
-                                placeholder="Nhập tên sinh viên">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">Giới tính</label>
-                            <select class="form-select" id="genderFilter">
-                                <option value="">Chọn giới tính</option>
-                                <option value="male">Nam</option>
-                                <option value="female">Nữ</option>
+                            <label class="form-label">Loại Học Phần</label>
+                            <select class="form-select" id="filterCourseType">
+                                <option value="">Tất cả loại</option>
+                                <option value="Core">Core (Cốt lõi)</option>
+                                <option value="Thesis">Thesis (Luận văn)</option>
+                                <option value="Elective">Elective (Tự chọn)</option>
+                                <option value="Internship">Internship (Thực tập)</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label">Địa chỉ</label>
-                            <select class="form-select" id="addressYearFilter">
-                                <option value="">Chọn địa chi</option>
-                                <option value="Hà Nội">Hà Nội</option>
-                                <option value="Hồ Chí Minh">Hồ Chí Minh</option>
-                                <option value="Đà Nẵng">Đà Nẵng</option>
-                                <option value="Thanh Hóa">Thanh Hóa</option>
-                                <option value="Khánh Hoà">Khánh Hoà</option>
-                                <option value="Long An">Long An</option>
-                                <option value="Huế">Huế</option>
-                                <option value="Nghệ An">Nghệ An</option>
-                                <option value="Quãng Ngãi">Quãng Ngãi</option>
+                            <label class="form-label">Chương Trình Học</label>
+                            <select class="form-select" id="programFilter">
+                                <option value="">Tất cả chương trình</option>
+                                <option value="1">Công nghệ phần mềm</option>
+                                <option value="2">Khoa học máy tính</option>
+                                <option value="3">Điện tử viễn thông</option>
+                                <option value="4">Khoa học dữ liệu</option>
                             </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Số Tín Chỉ</label>
+                            <input type="number" id="creditFilter" class="form-control">
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Trạng Thái</label>
-                            <select class="form-select" id="statusFilter">
-                                <option value="">Chọn trạng thái</option>
-                                <option value="studying">Còn đang học</option>
-                                <option value="graduated">Đã tốt nghiệp</option>
-                                <option value="suspended">Bị đình chỉ</option>
+                            <select class="form-select" id="filterStatus">
+                                <option value="">Tất cả trạng thái</option>
+                                <option value="1">Đang mở</option>
+                                <option value="0">Tạm khóa</option>
                             </select>
                         </div>
                         <div class="col-md-2 d-flex justify-content-end">
-                            <button class="btn btn-outline-secondary" onclick="applyFilters()">
+                            <button class="btn btn-outline-secondary" onclick="loadCourses()">
                                 <i class="fa fa-filter"></i> Lọc
                             </button>
                         </div>
                     </div>
+                    <!-- COURSES TABLE -->
+                    <table class="table table-hover align-middle" id="coursesTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Mã HP</th>
+                                <th>Tên Học Phần (VI)</th>
+                                <th>Tên Học Phần (EN)</th>
+                                <th>Số Tín Chỉ</th>
+                                <th>Loại HP</th>
+                                <th>Giờ LT</th>
+                                <th>Giờ TH</th>
+                                <th>Giờ Tự Học</th>
+                                <th>Trạng Thái</th>
+                                <th class="text-center">Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!-- PAGINATION -->
+                    <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+                        <ul class="pagination" id="pagination" style="gap: 8px;">
+                            <li class="page-item disabled"><span class="page-link">1</span></li>
+                        </ul>
+                    </nav>
                 </div>
-
-                <!-- Table -->
-                <table class="table table-striped table-hover" id="courseClassesTable">
-                    <thead>
-                        <tr>
-                            <th>Mã Sinh Viên</th>
-                            <th>Họ và Tên</th>
-                            <th>Giới tính</th>
-                            <th>Ngày sinh</th>
-                            <th>Địa chỉ</th>
-                            <th>Trạng thái</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody id="StudentTable">
-                        <!-- Content populated by JavaScript -->
-                    </tbody>
-                </table>
-                <!-- PAGINATION for list course class -->
-                <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-1">
-                    <ul class="pagination" id="pagination" style="gap: 8px;">
-                        <li class="page-item disabled"><span class="page-link">1</span></li>
-                    </ul>
-                </nav>
-            </div>
         </main>
-
-        <!-- Modal for add/edit student modal -->
-        <div class="modal fade" id="studentModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-bottom">
-                <div class="modal-content border-0 shadow">
-                    <div class="modal-header px-4 py-3">
-                        <h5 id="modalTitle" class="modal-title mb-0">Thêm sinh viên</h5>
+        <!-- Modal for Add/Edit Courses -->
+        <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="courseModalLabel">Thêm Học Phần</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div class="modal-body">
+                        <form id="courseForm">
+                            <input type="hidden" id="courseId">
 
-                    <div class="modal-body px-4 py-3">
-                        <input type="hidden" id="studentId">
-                        <div class="row g-3">
-
-                            <div class="col-md-6">
-                                <label for="code" class="form-label">Mã sinh viên</label>
-                                <input id="code" class="form-control" placeholder="Nhập mã sinh viên">
+                            <!-- Row 1: Mã + Loại -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="courseCode" class="form-label fw-semibold">Mã Học Phần <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="courseCode" placeholder="VD: CS101"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="courseType" class="form-label fw-semibold">Loại Học Phần <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="courseType" required>
+                                        <option value="">-- Chọn loại --</option>
+                                        <option value="Core">Core (Cốt lõi)</option>
+                                        <option value="Thesis">Thesis (Luận văn)</option>
+                                        <option value="Elective">Elective (Tự chọn)</option>
+                                        <option value="Internship">Internship (Thực tập)</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <label for="fullname" class="form-label">Họ và tên</label>
-                                <input id="fullname" class="form-control" placeholder="Nhập họ và tên">
+                            <!-- Row 2: Tên VI + Tên EN -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="courseName" class="form-label fw-semibold">Tên Học Phần (VI) <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="courseName" placeholder="Tên tiếng Việt"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="courseNameEn" class="form-label fw-semibold">Tên Học Phần (EN)</label>
+                                    <input type="text" class="form-control" id="courseNameEn"
+                                        placeholder="Tên tiếng Anh">
+                                </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <label for="gender" class="form-label">Giới tính</label>
-                                <select id="gender" class="form-select">
-                                    <option value="Nam">Nam</option>
-                                    <option value="Nu">Nữ</option>
-                                </select>
+                            <!-- Row 3: Tín chỉ + Trạng thái -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="credits" class="form-label fw-semibold">Số Tín Chỉ <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="credits" placeholder="VD: 3" min="1"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="status" class="form-label fw-semibold">Trạng Thái <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="status" required>
+                                        <option value="">-- Chọn trạng thái --</option>
+                                        <option value="0">Tạm Khóa</option>
+                                        <option value="1">Đang Mở</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <label for="address" class="form-label">Địa chỉ</label>
-                                <input id="address" class="form-control" placeholder="Nhập địa chỉ">
+                            <!-- Row 4: Giờ LT + Giờ TH + Giờ tự học -->
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="theoryHours" class="form-label fw-semibold">Giờ Lý Thuyết</label>
+                                    <input type="number" class="form-control" id="theoryHours" placeholder="VD: 30"
+                                        min="0">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="practiceHours" class="form-label fw-semibold">Giờ Thực Hành</label>
+                                    <input type="number" class="form-control" id="practiceHours" placeholder="VD: 15"
+                                        min="0">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="selfStudyHours" class="form-label fw-semibold">Giờ Tự Học</label>
+                                    <input type="number" class="form-control" id="selfStudyHours" placeholder="VD: 45"
+                                        min="0">
+                                </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <label for="date_of_birth" class="form-label">Ngày sinh</label>
-                                <input id="date_of_birth" type="date" class="form-control">
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="status" class="form-label">Trạng thái</label>
-                                <select id="status" class="form-select">
-                                    <option value="studying">Còn đang học</option>
-                                    <option value="graduated">Đã tốt nghiệp</option>
-                                    <option value="suspended">Bị đình chỉ</option>
-                                </select>
-                            </div>
-                        </div>
+                        </form>
                     </div>
-
-                    <div class="modal-footer px-4 py-3">
-                        <button type="button" class="btn btn-secondary px-3" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" class="btn btn-primary px-3" onclick="saveStudent()">Lưu</button>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-1"></i>Đóng
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="saveCourse()">
+                            <i class="bi bi-save me-1"></i>Lưu
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="app-footer">
+        <!-- footer -->
+        <footer>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
@@ -719,91 +753,94 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/js/adminlte.min.js"></script>
 
     <script>
-        const API_URL = "/api/students";
+        const API_URL = "/api/courses";
+        const PAGE_SIZE = 10;
+        let courses = [];
+        let filteredCourses = [];
+        let currentPage = 0;
 
-        const state = {
-            students: [],
-            filteredStudents: [],
-            page: 0,
-            size: 10
-        };
-
-        async function loadStudents() {
-            const tableBody = document.getElementById("StudentTable");
-            tableBody.innerHTML = `<tr><td colspan="7" class="text-center">Dang tai...</td></tr>`;
+        async function loadCourses() {
+            const tbody = getCoursesTableBody();
+            tbody.innerHTML = `<tr><td colspan="6" class="text-center">Dang tai...</td></tr>`;
 
             try {
                 const res = await fetch(API_URL);
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
 
-                state.students = await res.json();
+                courses = await res.json();
                 applyFilters(false);
-                updateOverview();
+                updateStats();
             } catch (error) {
-                console.error("Load students failed:", error);
-                tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Khong tai duoc du lieu</td></tr>`;
+                console.error("Khong load duoc danh sach hoc phan:", error);
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Khong the tai du lieu</td></tr>`;
             }
         }
 
         function applyFilters(resetPage = true) {
             if (resetPage) {
-                state.page = 0;
+                currentPage = 0;
             }
 
             const keyword = getValue("searchInput");
-            const code = getValue("studentCodeFilter");
-            const fullname = getValue("studentNameFilter");
-            const gender = getValue("genderFilter");
-            const address = getValue("addressYearFilter");
-            const status = getValue("statusFilter");
+            const code = getValue("courseCodeFilter");
+            const type = getValue("filterCourseType");
+            const credits = getValue("creditFilter");
+            const status = getValue("filterStatus");
 
-            state.filteredStudents = state.students.filter(student => {
-                const searchable = [student.code, student.fullname, student.gender, student.address, student.status]
-                    .map(normalize)
-                    .join(" ");
+            filteredCourses = courses.filter(course => {
+                const searchable = [
+                    course.courseCode,
+                    course.courseName,
+                    course.courseNameEn,
+                    course.courseType,
+                    course.description
+                ].map(normalize).join(" ");
 
                 return (!keyword || searchable.includes(normalize(keyword)))
-                    && (!code || normalize(student.code).includes(normalize(code)))
-                    && (!fullname || normalize(student.fullname).includes(normalize(fullname)))
-                    && (!gender || genderMatches(student.gender, gender))
-                    && (!address || normalize(student.address).includes(normalize(address)))
-                    && (!status || canonicalStatus(student.status) === status);
+                    && (!code || normalize(course.courseCode).includes(normalize(code)))
+                    && (!type || normalize(course.courseType) === normalize(type))
+                    && (!credits || Number(course.credits) === Number(credits))
+                    && (!status || courseStatusValue(course.isActive ?? course.status) === status);
             });
 
-            renderStudents();
+            renderCourses();
             renderPagination();
         }
 
-        function renderStudents() {
-            const tableBody = document.getElementById("StudentTable");
-            const start = state.page * state.size;
-            const pageItems = state.filteredStudents.slice(start, start + state.size);
+        function renderCourses() {
+            const tbody = getCoursesTableBody();
+            const start = currentPage * PAGE_SIZE;
+            const pageItems = filteredCourses.slice(start, start + PAGE_SIZE);
 
-            if (pageItems.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="7" class="text-center">Khong co du lieu</td></tr>`;
+            if (!pageItems.length) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Khong co du lieu</td></tr>`;
                 return;
             }
-
-            tableBody.innerHTML = pageItems.map(student => `
+            tbody.innerHTML = pageItems.map(course => `
                 <tr>
-                    <td>${escapeHtml(student.code)}</td>
-                    <td>${escapeHtml(student.fullname)}</td>
-                    <td>${escapeHtml(student.gender)}</td>
-                    <td>${formatDate(student.date_of_birth)}</td>
-                    <td>${escapeHtml(student.address)}</td>
-                    <td>${formatStatus(student.status)}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" onclick="editStudentById('${student.id}')">
+                    <td>${escapeHtml(course.courseCode)}</td>
+                    <td>${escapeHtml(course.courseName)}</td>
+                    <td>${escapeHtml(course.courseNameEn)}</td>
+                    <td>${escapeHtml(formatNumber(course.credits))}</td>
+                    <td>${escapeHtml(course.courseType)}</td>
+                    <td>${escapeHtml(formatNumber(course.theoryHours))}</td>
+                    <td>${escapeHtml(formatNumber(course.practiceHours))}</td>
+                    <td>${escapeHtml(formatNumber(course.selfStudyHours))}</td>
+                    <td>${formatStatus(course.isActive)}</td>
+                    <td class="text-center">
+                        <button class="btn btn-warning btn-sm" onclick="editCourse('${course.id}')">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteStudent('${student.id}')">
+                        <button class="btn btn-danger btn-sm" onclick="deleteCourse('${course.id}')">
                             <i class="fa fa-trash"></i>
                         </button>
                     </td>
@@ -813,208 +850,210 @@
 
         function renderPagination() {
             const pagination = document.getElementById("pagination");
-            const totalPages = Math.max(Math.ceil(state.filteredStudents.length / state.size), 1);
+            const totalPages = Math.max(Math.ceil(filteredCourses.length / PAGE_SIZE), 1);
 
-            if (state.page >= totalPages) {
-                state.page = totalPages - 1;
+            if (currentPage >= totalPages) {
+                currentPage = totalPages - 1;
             }
 
             let html = `
-                <li class="page-item ${state.page === 0 ? "disabled" : ""}">
-                    <button class="page-link" onclick="changePage(${state.page - 1})">Previous</button>
+                <li class="page-item ${currentPage === 0 ? "disabled" : ""}">
+                    <button class="page-link" type="button" onclick="changePage(${currentPage - 1})">Previous</button>
                 </li>
             `;
 
             for (let i = 0; i < totalPages; i++) {
                 html += `
-                    <li class="page-item ${i === state.page ? "active" : ""}">
-                        <button class="page-link" onclick="changePage(${i})">${i + 1}</button>
+                    <li class="page-item ${i === currentPage ? "active" : ""}">
+                        <button class="page-link" type="button" onclick="changePage(${i})">${i + 1}</button>
                     </li>
                 `;
             }
 
             html += `
-                <li class="page-item ${state.page >= totalPages - 1 ? "disabled" : ""}">
-                    <button class="page-link" onclick="changePage(${state.page + 1})">Next</button>
+                <li class="page-item ${currentPage >= totalPages - 1 ? "disabled" : ""}">
+                    <button class="page-link" type="button" onclick="changePage(${currentPage + 1})">Next</button>
                 </li>
             `;
+
             pagination.innerHTML = html;
         }
 
         function changePage(page) {
-            const totalPages = Math.max(Math.ceil(state.filteredStudents.length / state.size), 1);
-            if (page < 0 || page >= totalPages) return;
+            const totalPages = Math.max(Math.ceil(filteredCourses.length / PAGE_SIZE), 1);
+            if (page < 0 || page >= totalPages) {
+                return;
+            }
 
-            state.page = page;
-            renderStudents();
+            currentPage = page;
+            renderCourses();
             renderPagination();
         }
 
-        function updateOverview() {
-            document.getElementById("totalCourses").innerText = state.students.length;
-            document.getElementById("totalClasses").innerText = countByStatus("graduated");
-            document.getElementById("activeClasses").innerText = countByStatus("studying");
-            document.getElementById("inactiveClasses").innerText = countByStatus("suspended");
+        function updateStats() {
+            document.getElementById("statTotalCourses").textContent = courses.length;
+            document.getElementById("statCoreCourses").textContent = countByType("Core");
+            document.getElementById("statAdvancedCourses").textContent = countByType("Elective");
+            document.getElementById("statTotalCredits").textContent = formatNumber(
+                courses.reduce((total, course) => total + (Number(course.credits) || 0), 0)
+            );
         }
 
-        function countByStatus(status) {
-            return state.students.filter(student => canonicalStatus(student.status) === status).length;
+        function countByType(type) {
+            return courses.filter(course => normalize(course.courseType) === normalize(type)).length;
         }
 
-        // Add
-        function openAddModal() {
-            document.getElementById("modalTitle").innerText = "Thêm sinh viên";
-            document.getElementById("studentId").value = "";
-            document.getElementById("code").value = "";
-            document.getElementById("fullname").value = "";
-            document.getElementById("gender").value = "Nam";
-            document.getElementById("date_of_birth").value = "";
-            document.getElementById("address").value = "";
-            document.getElementById("status").value = "studying";
-            getStudentModal().show();
+        function addSemester() {
+            resetForm();
+            document.getElementById("courseModalLabel").textContent = "Thêm Học Phần";
+            getCourseModal().show();
         }
 
-        function editStudentById(id) {
-            const student = state.students.find(item => item.id === id);
-            if (student) {
-                editStudent(student);
+        function editCourse(id) {
+            const course = courses.find(item => item.id === id);
+            if (!course) {
+                return;
             }
+
+            document.getElementById("courseId").value = course.id;
+            document.getElementById("courseCode").value = course.courseCode || "";
+            document.getElementById("courseName").value = course.courseName || "";
+            document.getElementById("courseNameEn").value = course.courseNameEn || "";
+            document.getElementById("theoryHours").value = course.theoryHours ?? "";
+            document.getElementById("practiceHours").value = course.practiceHours ?? "";
+            document.getElementById("selfStudyHours").value = course.selfStudyHours ?? "";
+            document.getElementById("status").value = course.isActive ? "1" : "0";
+            document.getElementById("credits").value = course.credits ?? "";
+            document.getElementById("courseType").value = course.courseType || "";
+            document.getElementById("courseModalLabel").textContent = "Sửa Học Phần";
+            getCourseModal().show();
         }
 
-        // Edit
-        function editStudent(s) {
-            document.getElementById("modalTitle").innerText = "Sửa sinh viên";
-            document.getElementById("studentId").value = s.id;
-            document.getElementById("code").value = s.code;
-            document.getElementById("fullname").value = s.fullname;
-            document.getElementById("gender").value = s.gender;
-            document.getElementById("date_of_birth").value = toDateInput(s.date_of_birth);
-            document.getElementById("address").value = s.address || "";
-            document.getElementById("status").value = canonicalStatus(s.status) || "studying";
+        async function saveCourse() {
+            const form = document.getElementById("courseForm");
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
 
-            getStudentModal().show();
-        }
-
-        // Save (Add + Update)
-        async function saveStudent() {
-            const id = document.getElementById("studentId").value;
-
-            const student = {
-                code: getValue("code"),
-                fullname: getValue("fullname"),
-                gender: getValue("gender"),
-                date_of_birth: toApiDateTime(getValue("date_of_birth")),
-                address: getValue("address"),
-                status: getValue("status")
+            const id = getValue("courseId");
+            const payload = {
+                courseCode: getValue("courseCode"),
+                courseName: getValue("courseName"),
+                courseNameEn: getValue("courseNameEn"),
+                credits: parseDecimal(getValue("credits")),
+                courseType: getValue("courseType"),
+                theoryHours: parseDecimal(getValue("theoryHours")),
+                practiceHours: parseDecimal(getValue("practiceHours")),
+                selfStudyHours: parseDecimal(getValue("selfStudyHours")),
+                isActive: getValue("status") === "1"
             };
+            try {
+                const res = await fetch(id ? `${API_URL}/${id}` : API_URL, {
+                    method: id ? "PUT" : "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
 
-            if (!student.code || !student.fullname) {
-                alert("Vui long nhap ma sinh vien va ho ten");
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+
+                getCourseModal().hide();
+                resetForm();
+                await loadCourses();
+            } catch (error) {
+                console.error("Khong luu duoc hoc phan:", error);
+                alert("Luu hoc phan that bai.");
+            }
+        }
+
+        async function deleteCourse(id) {
+            if (!confirm("Ban co chac muon xoa hoc phan nay?")) {
                 return;
             }
 
-            if (id) {
-                // UPDATE
-                const res = await fetch(API_URL + "/" + id, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(student)
-                });
+            try {
+                const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
                 if (!res.ok) {
-                    alert("Luu sinh vien that bai");
-                    return;
+                    throw new Error(`HTTP ${res.status}`);
                 }
-            } else {
-                // CREATE
-                const res = await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(student)
-                });
-                if (!res.ok) {
-                    alert("Luu sinh vien that bai");
-                    return;
-                }
-            }
 
-            getStudentModal().hide();
-            await loadStudents();
+                await loadCourses();
+            } catch (error) {
+                console.error("Khong xoa duoc hoc phan:", error);
+                alert("Xoa hoc phan that bai.");
+            }
         }
 
-        // Delete
-        async function deleteStudent(id) {
-            if (!confirm("Bạn có chắc muốn xóa?")) return;
-
-            const res = await fetch(API_URL + "/" + id, {
-                method: "DELETE"
-            });
-            if (!res.ok) {
-                alert("Xoa sinh vien that bai");
-                return;
-            }
-
-            await loadStudents();
+        function resetForm() {
+            document.getElementById("courseForm").reset();
+            document.getElementById("courseId").value = "";
         }
 
-        function getStudentModal() {
-            return bootstrap.Modal.getOrCreateInstance(document.getElementById("studentModal"));
+        function getCourseModal() {
+            return bootstrap.Modal.getOrCreateInstance(document.getElementById("courseModal"));
+        }
+
+        function getCoursesTableBody() {
+            return document.querySelector("#coursesTable tbody");
         }
 
         function getValue(id) {
             return document.getElementById(id)?.value.trim() || "";
         }
 
-        function formatDate(date) {
-            return date ? new Date(date).toLocaleDateString("vi-VN") : "";
+        function parseDecimal(value) {
+            if (!value) {
+                return null;
+            }
+
+            const parsed = Number(value);
+            return Number.isNaN(parsed) ? null : parsed;
         }
 
-        function toDateInput(date) {
-            return date ? String(date).slice(0, 10) : "";
-        }
-
-        function toApiDateTime(date) {
-            return date ? `${date}T00:00:00` : null;
+        function courseStatusValue(val) {
+            return val === true || val === 1 || val === "1" || val === "true" ? "1" : "0";
         }
 
         function formatStatus(status) {
-            const labels = {
-                studying: "Còn đang học",
-                graduated: "Đã tốt nghiệp",
-                suspended: "Bị đình chỉ"
-            };
-            return escapeHtml(labels[canonicalStatus(status)] || status);
+            return courseStatusValue(status) === "1"
+                ? '<span class="badge text-bg-success">Dang mo</span>'
+                : '<span class="badge text-bg-secondary">Tam khoa</span>';
         }
 
-        function canonicalStatus(status) {
-            const value = normalize(status);
-            if (!value) return "";
-            if (value === "studying" || value.includes("dang hoc") || value.includes("con dang hoc")) return "studying";
-            if (value === "graduated" || value.includes("tot nghiep")) return "graduated";
-            if (value === "suspended" || value.includes("dinh chi")) return "suspended";
-            return value;
-        }
+        function formatNumber(value) {
+            const number = Number(value);
+            if (Number.isNaN(number)) {
+                return "";
+            }
 
-        function genderMatches(currentGender, filterGender) {
-            const gender = normalize(currentGender);
-            return (filterGender === "male" && (gender === "nam" || gender === "male"))
-                || (filterGender === "female" && (gender === "nu" || gender === "female"));
+            return Number.isInteger(number) ? String(number) : String(number).replace(/\.0$/, "");
         }
 
         function normalize(value) {
-            return (value || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            return String(value ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         }
 
         function escapeHtml(value) {
-            return value == null ? "" : String(value)
+            return String(value ?? "")
                 .replaceAll("&", "&amp;")
                 .replaceAll("<", "&lt;")
                 .replaceAll(">", "&gt;")
                 .replaceAll('"', "&quot;")
-                .replaceAll("'", "&#039;");
+                .replaceAll("'", "&#39;");
         }
 
-        // Init
-        document.addEventListener("DOMContentLoaded", loadStudents);
+        document.getElementById("searchInput").addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                applyFilters();
+            }
+        });
+
+        document.getElementById("courseModal").addEventListener("hidden.bs.modal", resetForm);
+
+        document.addEventListener("DOMContentLoaded", loadCourses);
     </script>
 
 </html>

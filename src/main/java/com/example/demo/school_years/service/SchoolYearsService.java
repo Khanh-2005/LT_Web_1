@@ -1,31 +1,31 @@
 package com.example.demo.school_years.service;
 
-import com.example.demo.school_years.model.entity.SchoolYear;
-import com.example.demo.school_years.repository.SchoolYearRepository;
+import com.example.demo.school_years.model.entity.SchoolYears;
+import com.example.demo.school_years.repository.SchoolYearsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-public class SchoolYearService {
+public class SchoolYearsService {
 
-    private final SchoolYearRepository repo;
+    private final SchoolYearsRepository repo;
 
-    public SchoolYearService(SchoolYearRepository repo) {
+    public SchoolYearsService(SchoolYearsRepository repo) {
         this.repo = repo;
     }
 
-    public List<SchoolYear> getAll() {
+    public List<SchoolYears> getAll() {
         return repo.findAll();
     }
 
-    public SchoolYear create(SchoolYear s) {
+    public SchoolYears create(SchoolYears s) {
         s.setId(UUID.randomUUID().toString());
         return repo.save(s);
     }
 
-    public SchoolYear update(String id, SchoolYear s) {
+    public SchoolYears update(String id, SchoolYears s) {
         s.setId(id);
         return repo.save(s);
     }

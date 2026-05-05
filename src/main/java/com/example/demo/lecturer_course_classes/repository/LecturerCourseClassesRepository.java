@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface LecturerCourseClassRepository extends JpaRepository<LecturerCourseClasses, UUID> {
+public interface LecturerCourseClassesRepository extends JpaRepository<LecturerCourseClasses, UUID> {
 
     @Query("""
                 SELECT l FROM LecturerCourseClasses l
@@ -33,7 +33,6 @@ public interface LecturerCourseClassRepository extends JpaRepository<LecturerCou
                 AND l.isActive = true AND l.deletedAt IS NULL
             """)
     boolean existsActiveByEmployeeAndCourseClass(
-        @Param("employeeId") UUID employeeId,
-        @Param("courseClassId") UUID courseClassId
-    );
+            @Param("employeeId") UUID employeeId,
+            @Param("courseClassId") UUID courseClassId);
 }

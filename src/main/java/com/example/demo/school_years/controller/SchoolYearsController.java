@@ -1,7 +1,7 @@
 package com.example.demo.school_years.controller;
 
-import com.example.demo.school_years.model.entity.SchoolYear;
-import com.example.demo.school_years.service.SchoolYearService;
+import com.example.demo.school_years.model.entity.SchoolYears;
+import com.example.demo.school_years.service.SchoolYearsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,26 +9,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/school-years")
 @CrossOrigin
-public class SchoolYearController {
+public class SchoolYearsController {
 
-    private final SchoolYearService service;
+    private final SchoolYearsService service;
 
-    public SchoolYearController(SchoolYearService service) {
+    public SchoolYearsController(SchoolYearsService service) {
         this.service = service;
     }
 
     @GetMapping
-    public List<SchoolYear> getAll() {
+    public List<SchoolYears> getAll() {
         return service.getAll();
     }
 
     @PostMapping
-    public SchoolYear create(@RequestBody SchoolYear s) {
+    public SchoolYears create(@RequestBody SchoolYears s) {
         return service.create(s);
     }
 
     @PutMapping("/{id}")
-    public SchoolYear update(@PathVariable String id, @RequestBody SchoolYear s) {
+    public SchoolYears update(@PathVariable String id, @RequestBody SchoolYears s) {
         return service.update(id, s);
     }
 

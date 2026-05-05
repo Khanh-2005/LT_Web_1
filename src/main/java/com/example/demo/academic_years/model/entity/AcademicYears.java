@@ -1,32 +1,35 @@
-package com.example.demo.school_years.model.entity;
+package com.example.demo.academic_years.model.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Table(name = "school_years")
-public class SchoolYear {
+@Table(name = "academic_years")
+public class AcademicYears {
 
     @Id
     private String id;
 
     private String code;
     private String name;
+
+    // 🔥 FIX Ở ĐÂY
+    @Column(name = "year")
+    private String year;
+
     private String description;
-    private String note;
 
     @Column(name = "start_date")
-    private LocalDate startDate;
+    private Date startDate;
 
     @Column(name = "end_date")
-    private LocalDate endDate;
+    private Date endDate;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Date updatedAt;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -35,7 +38,7 @@ public class SchoolYear {
     private String updatedBy;
 
     @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+    private Date deletedAt;
 
     @Column(name = "deleted_by")
     private String deletedBy;
@@ -43,10 +46,10 @@ public class SchoolYear {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    public SchoolYear() {
+    public AcademicYears() {
     }
 
-    // ===== GETTER SETTER =====
+    // getter setter đầy đủ
 
     public String getId() {
         return id;
@@ -72,6 +75,14 @@ public class SchoolYear {
         this.name = name;
     }
 
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -80,43 +91,35 @@ public class SchoolYear {
         this.description = description;
     }
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -136,11 +139,11 @@ public class SchoolYear {
         this.updatedBy = updatedBy;
     }
 
-    public LocalDateTime getDeletedAt() {
+    public Date getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(LocalDateTime deletedAt) {
+    public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
     }
 
@@ -156,7 +159,7 @@ public class SchoolYear {
         return isActive;
     }
 
-    public void setIsActive(Boolean active) {
-        isActive = active;
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 }

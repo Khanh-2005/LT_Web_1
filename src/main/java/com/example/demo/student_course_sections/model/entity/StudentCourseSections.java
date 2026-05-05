@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.example.demo.course_sections.model.entity.CourseSections;
-import com.example.demo.students.model.entity.Student;
+import com.example.demo.students.model.entity.Students;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -33,7 +33,7 @@ public class StudentCourseSections {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", insertable = false, updatable = false)
-    private Student student;
+    private Students student;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_section_id", insertable = false, updatable = false)
@@ -122,11 +122,11 @@ public class StudentCourseSections {
         this.courseSectionId = courseSectionId;
     }
 
-    public Student getStudent() {
+    public Students getStudent() {
         return student;
     }
 
-    public void setStudent(Student student) {
+    public void setStudent(Students student) {
         this.student = student;
     }
 

@@ -1,7 +1,7 @@
 package com.example.demo.academic_years.controller;
 
-import com.example.demo.academic_years.model.entity.AcademicYear;
-import com.example.demo.academic_years.service.AcademicYearService;
+import com.example.demo.academic_years.model.entity.AcademicYears;
+import com.example.demo.academic_years.service.AcademicYearsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,28 +10,28 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/academic-years")
 @CrossOrigin(origins = "*")
-public class AcademicYearApiController {
+public class AcademicYearsController {
 
     @Autowired
-    private AcademicYearService service;
+    private AcademicYearsService service;
 
     @GetMapping
-    public List<AcademicYear> getAll() {
+    public List<AcademicYears> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public AcademicYear getById(@PathVariable String id) {
+    public AcademicYears getById(@PathVariable String id) {
         return service.getById(id);
     }
 
     @PostMapping
-    public AcademicYear create(@RequestBody AcademicYear body) {
+    public AcademicYears create(@RequestBody AcademicYears body) {
         return service.create(body);
     }
 
     @PutMapping("/{id}")
-    public AcademicYear update(@PathVariable String id, @RequestBody AcademicYear body) {
+    public AcademicYears update(@PathVariable String id, @RequestBody AcademicYears body) {
         return service.update(id, body);
     }
 

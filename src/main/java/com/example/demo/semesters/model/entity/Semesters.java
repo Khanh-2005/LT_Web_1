@@ -1,11 +1,14 @@
-package com.example.demo.academic_years.model.entity;
+package com.example.demo.semesters.model.entity;
 
+import com.example.demo.school_years.model.entity.SchoolYears;
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "academic_years")
-public class AcademicYear {
+@Table(name = "semesters")
+public class Semesters {
 
     @Id
     private String id;
@@ -13,23 +16,27 @@ public class AcademicYear {
     private String code;
     private String name;
 
-    // 🔥 FIX Ở ĐÂY
-    @Column(name = "year")
-    private String year;
+    @Column(name = "school_year_id")
+    private String schoolYearId;
 
-    private String description;
+    @Column(name = "school_year_name")
+    private String schoolYearName;
+
+    @ManyToOne
+    @JoinColumn(name = "school_year_id", insertable = false, updatable = false)
+    private SchoolYears schoolYear;
 
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column(name = "created_at")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -38,7 +45,7 @@ public class AcademicYear {
     private String updatedBy;
 
     @Column(name = "deleted_at")
-    private Date deletedAt;
+    private LocalDateTime deletedAt;
 
     @Column(name = "deleted_by")
     private String deletedBy;
@@ -46,10 +53,10 @@ public class AcademicYear {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    public AcademicYear() {
+    public Semesters() {
     }
 
-    // getter setter đầy đủ
+    // ===== GETTER SETTER =====
 
     public String getId() {
         return id;
@@ -75,51 +82,55 @@ public class AcademicYear {
         this.name = name;
     }
 
-    public String getYear() {
-        return year;
+    public String getSchoolYearId() {
+        return schoolYearId;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setSchoolYearId(String schoolYearId) {
+        this.schoolYearId = schoolYearId;
     }
 
-    public String getDescription() {
-        return description;
+    public String getSchoolYearName() {
+        return schoolYearName;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSchoolYearName(String schoolYearName) {
+        this.schoolYearName = schoolYearName;
     }
 
-    public Date getStartDate() {
+    public SchoolYears getSchoolYear() {
+        return schoolYear;
+    }
+
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -139,11 +150,11 @@ public class AcademicYear {
         this.updatedBy = updatedBy;
     }
 
-    public Date getDeletedAt() {
+    public LocalDateTime getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Date deletedAt) {
+    public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
     }
 
@@ -159,7 +170,7 @@ public class AcademicYear {
         return isActive;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+    public void setIsActive(Boolean active) {
+        isActive = active;
     }
 }
