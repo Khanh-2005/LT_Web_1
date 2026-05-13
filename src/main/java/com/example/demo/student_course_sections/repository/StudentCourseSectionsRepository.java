@@ -13,39 +13,41 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface StudentCourseSectionsRepository
-        extends JpaRepository<StudentCourseSections, UUID>, JpaSpecificationExecutor<StudentCourseSections> {
+                extends JpaRepository<StudentCourseSections, UUID>, JpaSpecificationExecutor<StudentCourseSections> {
 
-    @Override
-    @EntityGraph(attributePaths = { "student", "courseSection" })
-    List<StudentCourseSections> findAll(org.springframework.data.jpa.domain.Specification<StudentCourseSections> spec);
+        @Override
+        @EntityGraph(attributePaths = { "student", "courseSection" })
+        List<StudentCourseSections> findAll(
+                        org.springframework.data.jpa.domain.Specification<StudentCourseSections> spec);
 
-    @Override
-    @EntityGraph(attributePaths = { "student", "courseSection" })
-    Page<StudentCourseSections> findAll(org.springframework.data.jpa.domain.Specification<StudentCourseSections> spec,
-            Pageable pageable);
+        @Override
+        @EntityGraph(attributePaths = { "student", "courseSection" })
+        Page<StudentCourseSections> findAll(
+                        org.springframework.data.jpa.domain.Specification<StudentCourseSections> spec,
+                        Pageable pageable);
 
-    List<StudentCourseSections> findByDeletedAtIsNull();
+        List<StudentCourseSections> findByDeletedAtIsNull();
 
-    Optional<StudentCourseSections> findByIdAndDeletedAtIsNull(UUID id);
+        Optional<StudentCourseSections> findByIdAndDeletedAtIsNull(UUID id);
 
-    boolean existsByIdAndDeletedAtIsNull(UUID id);
+        boolean existsByIdAndDeletedAtIsNull(UUID id);
 
-    List<StudentCourseSections> findByStudentId(UUID studentId);
+        List<StudentCourseSections> findByStudentId(UUID studentId);
 
-    List<StudentCourseSections> findByCourseSectionId(UUID courseSectionId);
+        List<StudentCourseSections> findByCourseSectionId(UUID courseSectionId);
 
-    List<StudentCourseSections> findByStatusContainingIgnoreCase(String status);
+        List<StudentCourseSections> findByStatusContainingIgnoreCase(String status);
 
-    @Query("select s from StudentCourseSections s "
-            + "left join fetch s.student "
-            + "left join fetch s.courseSection "
-            + "where s.deletedAt is null")
-    List<StudentCourseSections> findAllWithDetails();
+        @Query("select s from StudentCourseSections s "
+                        + "left join fetch s.student "
+                        + "left join fetch s.courseSection "
+                        + "where s.deletedAt is null")
+        List<StudentCourseSections> findAllWithDetails();
 
-    @Query("select s from StudentCourseSections s "
-            + "left join fetch s.student "
-            + "left join fetch s.courseSection "
-            + "where s.id = :id and s.deletedAt is null")
-    Optional<StudentCourseSections> findByIdAndDeletedAtIsNullWithDetails(@Param("id") UUID id);
+        @Query("select s from StudentCourseSections s "
+                        + "left join fetch s.student "
+                        + "left join fetch s.courseSection "
+                        + "where s.id = :id and s.deletedAt is null")
+        Optional<StudentCourseSections> findByIdAndDeletedAtIsNullWithDetails(@Param("id") UUID id);
 
 }

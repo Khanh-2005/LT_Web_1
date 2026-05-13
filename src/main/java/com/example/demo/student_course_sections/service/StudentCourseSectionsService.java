@@ -1,5 +1,6 @@
 package com.example.demo.student_course_sections.service;
 
+import com.example.demo.student_course_sections.model.dto.StudentCourseSectionResponse;
 import com.example.demo.student_course_sections.model.entity.StudentCourseSections;
 import com.example.demo.student_course_sections.repository.StudentCourseSectionsRepository;
 import java.io.ByteArrayOutputStream;
@@ -29,18 +30,27 @@ public class StudentCourseSectionsService {
     }
 
     // 1. Get all student course sections
-    public List<StudentCourseSections> getAll() {
-        return repo.findAllWithDetails();
+    public List<StudentCourseSectionResponse> getAll() {
+        return repo.findAllWithDetails()
+                .stream()
+                .map(StudentCourseSectionResponse::fromEntity)
+                .toList();
     }
 
     // 2. Get a student course section by ID
-    public StudentCourseSections getById(UUID id) {
+    public StudentCourseSectionResponse getById(UUID id) {
+        return repo.findByIdAndDeletedAtIsNullWithDetails(id)
+                .map(StudentCourseSectionResponse::fromEntity)
+                .orElse(null);
+    }
+
+    private StudentCourseSections getEntityById(UUID id) {
         return repo.findByIdAndDeletedAtIsNullWithDetails(id).orElse(null);
     }
 
     // 3. Update a student course section
-    public StudentCourseSections update(UUID id, StudentCourseSections studentCourseSection) {
-        StudentCourseSections old = getById(id);
+    public StudentCourseSectionResponse update(UUID id, StudentCourseSections studentCourseSection) {
+        StudentCourseSections old = getEntityById(id);
         if (old == null) {
             return null;
         }
@@ -62,12 +72,13 @@ public class StudentCourseSectionsService {
             old.setCreatedBy(studentCourseSection.getCreatedBy());
         }
 
-        return repo.save(old);
+        StudentCourseSections saved = repo.save(old);
+        return StudentCourseSectionResponse.fromEntity(saved);
     }
 
     // 4. Soft delete a student course section
     public void softDelete(UUID id) {
-        StudentCourseSections studentCourseSection = getById(id);
+        StudentCourseSections studentCourseSection = getEntityById(id);
         if (studentCourseSection == null) {
             return;
         }
@@ -80,20 +91,26 @@ public class StudentCourseSectionsService {
     }
 
     // 5. Search student course sections
-    public List<StudentCourseSections> search(UUID studentId, UUID courseSectionId, String keyword, String status,
+    public List<StudentCourseSectionResponse> search(UUID studentId, UUID courseSectionId, String keyword,
+            String status,
             Boolean isActive, String studentCode, String studentName, String gender, String courseSectionCode) {
         return repo.findAll(buildSearchSpecification(studentId, courseSectionId, keyword, status, isActive, studentCode,
-                studentName, gender, courseSectionCode));
+                studentName, gender, courseSectionCode))
+                .stream()
+                .map(StudentCourseSectionResponse::fromEntity)
+                .toList();
     }
 
     // 6. Paginated student course sections
-    public Page<StudentCourseSections> searchPaged(UUID studentId, UUID courseSectionId, String keyword, String status,
+    public Page<StudentCourseSectionResponse> searchPaged(UUID studentId, UUID courseSectionId, String keyword,
+            String status,
             Boolean isActive, String studentCode, String studentName, String gender, String courseSectionCode, int page,
             int size) {
         Pageable pageable = PageRequest.of(Math.max(page, 0), Math.max(size, 1),
                 Sort.by(Sort.Direction.DESC, "createdAt"));
         return repo.findAll(buildSearchSpecification(studentId, courseSectionId, keyword, status, isActive, studentCode,
-                studentName, gender, courseSectionCode), pageable);
+                studentName, gender, courseSectionCode), pageable)
+                .map(StudentCourseSectionResponse::fromEntity);
     }
 
     // Helper method to check if a string has text

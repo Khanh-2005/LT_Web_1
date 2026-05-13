@@ -1,5 +1,6 @@
 package com.example.demo.student_course_sections.controller;
 
+import com.example.demo.student_course_sections.model.dto.StudentCourseSectionResponse;
 import com.example.demo.student_course_sections.model.entity.StudentCourseSections;
 import com.example.demo.student_course_sections.service.StudentCourseSectionsService;
 import java.io.IOException;
@@ -33,19 +34,19 @@ public class StudentCourseSectionsController {
 
     // 1. Get all student course sections
     @GetMapping
-    public List<StudentCourseSections> getAll() {
+    public List<StudentCourseSectionResponse> getAll() {
         return service.getAll();
     }
 
     // 2. Get a student course section by ID
     @GetMapping("/{id}")
-    public StudentCourseSections getById(@PathVariable UUID id) {
+    public StudentCourseSectionResponse getById(@PathVariable UUID id) {
         return service.getById(id);
     }
 
     // 3. Update a student course section
     @PutMapping("/{id}")
-    public StudentCourseSections update(@PathVariable UUID id,
+    public StudentCourseSectionResponse update(@PathVariable UUID id,
             @RequestBody StudentCourseSections studentCourseSection) {
         return service.update(id, studentCourseSection);
     }
@@ -58,7 +59,7 @@ public class StudentCourseSectionsController {
 
     // 5. Search student course sections
     @GetMapping("/search")
-    public List<StudentCourseSections> search(
+    public List<StudentCourseSectionResponse> search(
             @RequestParam(required = false) UUID studentId,
             @RequestParam(required = false) UUID courseSectionId,
             @RequestParam(required = false) String keyword,
@@ -74,7 +75,7 @@ public class StudentCourseSectionsController {
 
     // 6. Paginated student course sections
     @GetMapping("/paged")
-    public Page<StudentCourseSections> searchPaged(
+    public Page<StudentCourseSectionResponse> searchPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) UUID studentId,

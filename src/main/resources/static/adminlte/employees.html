@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -531,26 +531,26 @@
             <div class="row my-3">
                 <div class="col-md-3">
                     <div class="card bg-warning text-white p-3">
-                        <h3 id="totalCourses">0</h3>
-                        <p>Tổng Sinh Viên</p>
+                        <h3 id="totalEmployees">0</h3>
+                        <p>Tổng số giảng viên</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="card bg-danger text-white p-3">
-                        <h3 id="totalClasses">0</h3>
-                        <p>Số sinh viên đã tốt nghiệp</p>
+                        <h3 id="totalFullTimeEmployees">0</h3>
+                        <p>Số giảng viên full time</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="card bg-success text-white p-3">
-                        <h3 id="activeClasses">0</h3>
-                        <p>Số sinh viên đang học</p>
+                        <h3 id="totalPartTimeEmployees">0</h3>
+                        <p>Số giảng viên part time</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="card bg-primary text-white p-3">
-                        <h3 id="inactiveClasses">0</h3>
-                        <p>Số sinh viên bị đình chỉ</p>
+                        <h3 id="inactiveEmployees">0</h3>
+                        <p>Số giảng viên đã nghỉ việc</p>
                     </div>
                 </div>
             </div>
@@ -559,7 +559,7 @@
             <div class="card">
                 <!-- Header with Search and Add Button -->
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5>Danh Sách Sinh Viên</h5>
+                    <h5>Danh Sách Giảng Viên</h5>
                     <div class="d-flex align-items-center gap-2 ms-auto">
                         <input type="text" id="searchInput" class=" form-control search-input" placeholder="Search"
                             style="width: 800px; margin-right: 50px;">
@@ -576,14 +576,14 @@
                 <div class="card-body">
                     <div class="row mb-3 align-items-end">
                         <div class="col-md-2">
-                            <label class="form-label">Mã Sinh Viên</label>
-                            <input type="text" class="form-control" id="studentCodeFilter"
-                                placeholder="Nhập mã sinh viên">
+                            <label class="form-label">Mã Giảng Viên</label>
+                            <input type="text" class="form-control" id="employeeCodeFilter"
+                                placeholder="Nhập mã giảng viên">
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label">Tên Sinh Viên</label>
-                            <input type="text" class="form-control" id="studentNameFilter"
-                                placeholder="Nhập tên sinh viên">
+                            <label class="form-label">Tên Giảng Viên</label>
+                            <input type="text" class="form-control" id="employeeNameFilter"
+                                placeholder="Nhập tên giảng viên">
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Giới tính</label>
@@ -594,27 +594,20 @@
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label">Địa chỉ</label>
-                            <select class="form-select" id="addressYearFilter">
-                                <option value="">Chọn địa chi</option>
-                                <option value="Hà Nội">Hà Nội</option>
-                                <option value="Hồ Chí Minh">Hồ Chí Minh</option>
-                                <option value="Đà Nẵng">Đà Nẵng</option>
-                                <option value="Thanh Hóa">Thanh Hóa</option>
-                                <option value="Khánh Hoà">Khánh Hoà</option>
-                                <option value="Long An">Long An</option>
-                                <option value="Huế">Huế</option>
-                                <option value="Nghệ An">Nghệ An</option>
-                                <option value="Quãng Ngãi">Quãng Ngãi</option>
+                            <label class="form-label">Loại Học Vấn</label>
+                            <select class="form-select" id="degreeFilter">
+                                <option value="">Chọn loại học vấn</option>
+                                <option value="bachelor">Cử nhân</option>
+                                <option value="master">Thạc sĩ</option>
+                                <option value="doctor">Tiến sĩ</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <label class="form-label">Trạng Thái</label>
-                            <select class="form-select" id="statusFilter">
-                                <option value="">Chọn trạng thái</option>
-                                <option value="studying">Còn đang học</option>
-                                <option value="graduated">Đã tốt nghiệp</option>
-                                <option value="suspended">Bị đình chỉ</option>
+                            <label class="form-label">Loại Hợp Đồng</label>
+                            <select class="form-select" id="contractTypeFilter">
+                                <option value="">Chọn loại hợp đồng</option>
+                                <option value="full_time">Hợp đồng chính thức</option>
+                                <option value="part_time">Hợp đồng bán thời gian</option>
                             </select>
                         </div>
                         <div class="col-md-2 d-flex justify-content-end">
@@ -626,19 +619,20 @@
                 </div>
 
                 <!-- Table -->
-                <table class="table table-striped table-hover" id="studentTable">
+                <table class="table table-striped table-hover" id="employeesTable">
                     <thead>
                         <tr>
-                            <th>Mã Sinh Viên</th>
+                            <th>Mã Giảng Viên</th>
                             <th>Họ và Tên</th>
                             <th>Giới tính</th>
-                            <th>Ngày sinh</th>
-                            <th>Địa chỉ</th>
+                            <th>E-mail</th>
+                            <th>Chức vụ</th>
+                            <th>Học vấn</th>
                             <th>Trạng thái</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody id="StudentTable">
+                    <tbody id="employeesTableBody">
                         <!-- Content populated by JavaScript -->
                     </tbody>
                 </table>
@@ -656,8 +650,9 @@
             <div class="modal-dialog modal-lg modal-dialog-bottom">
                 <div class="modal-content border-0 shadow">
                     <div class="modal-header px-4 py-3">
-                        <h5 id="modalTitle" class="modal-title mb-0">Thêm sinh viên</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 id="modalTitle" class="modal-title mb-0">Thêm giảng viên</h5>
+                        <button type="button" class="btn-close" onclick="closeEmployeeModal()"
+                            aria-label="Close"></button>
                     </div>
 
                     <div class="modal-body px-4 py-3">
@@ -665,8 +660,8 @@
                         <div class="row g-3">
 
                             <div class="col-md-6">
-                                <label for="code" class="form-label">Mã sinh viên</label>
-                                <input id="code" class="form-control" placeholder="Nhập mã sinh viên">
+                                <label for="code" class="form-label">Mã giảng viên</label>
+                                <input id="code" class="form-control" placeholder="Nhập mã giảng viên">
                             </div>
 
                             <div class="col-md-6">
@@ -678,33 +673,46 @@
                                 <label for="gender" class="form-label">Giới tính</label>
                                 <select id="gender" class="form-select">
                                     <option value="Nam">Nam</option>
-                                    <option value="Nu">Nữ</option>
+                                    <option value="Nữ">Nữ</option>
                                 </select>
                             </div>
 
                             <div class="col-md-6">
-                                <label for="address" class="form-label">Địa chỉ</label>
-                                <input id="address" class="form-control" placeholder="Nhập địa chỉ">
+                                <label for="email" class="form-label">E-mail</label>
+                                <input id="email" class="form-control" placeholder="Nhập e-mail">
                             </div>
 
                             <div class="col-md-6">
-                                <label for="date_of_birth" class="form-label">Ngày sinh</label>
-                                <input id="date_of_birth" type="date" class="form-control">
+                                <label for="academicTitle" class="form-label">Chức vụ</label>
+                                <select id="academicTitle" class="form-select">
+                                    <option value="lecturer">Giảng viên</option>
+                                    <option value="teaching_assistant">Trợ giảng</option>
+                                    <option value="head_of_department">Trưởng bộ môn</option>
+                                    <option value="faculty_advisor">Giáo vụ Khoa</option>
+                                </select>
                             </div>
 
                             <div class="col-md-6">
-                                <label for="status" class="form-label">Trạng thái</label>
-                                <select id="status" class="form-select">
-                                    <option value="studying">Còn đang học</option>
-                                    <option value="graduated">Đã tốt nghiệp</option>
-                                    <option value="suspended">Bị đình chỉ</option>
+                                <label for="degree" class="form-label">Học vị</label>
+                                <select id="degree" class="form-select">
+                                    <option value="bachelor">Cử nhân</option>
+                                    <option value="master">Thạc sĩ</option>
+                                    <option value="doctor">Tiến sĩ</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="contractType" class="form-label">Loại Hợp Đồng</label>
+                                <select id="contractType" class="form-select">
+                                    <option value="full_time">Nhân viên chính thức</option>
+                                    <option value="part_time">Nhân viên bán thời gian</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer px-4 py-3">
-                        <button type="button" class="btn btn-secondary px-3" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-secondary px-3" onclick="closeEmployeeModal()">Hủy</button>
                         <button type="button" class="btn btn-primary px-3" onclick="saveStudent()">Lưu</button>
                     </div>
                 </div>
@@ -726,29 +734,29 @@
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/js/adminlte.min.js"></script>
 
     <script>
-        const API_URL = "/api/students";
+        const API_URL = "/api/employees";
 
         const state = {
-            students: [],
-            filteredStudents: [],
+            employees: [],
+            filteredEmployees: [],
             page: 0,
             size: 10
         };
 
-        async function loadStudents() {
-            const tableBody = document.getElementById("StudentTable");
-            tableBody.innerHTML = `<tr><td colspan="7" class="text-center">Dang tai...</td></tr>`;
+        async function loadEmployees() {
+            const tableBody = document.getElementById("employeesTableBody");
+            tableBody.innerHTML = `<tr><td colspan="8" class="text-center">Dang tai...</td></tr>`;
 
             try {
                 const res = await fetch(API_URL);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-                state.students = await res.json();
+                state.employees = await res.json();
                 applyFilters(false);
                 updateOverview();
             } catch (error) {
-                console.error("Load students failed:", error);
-                tableBody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Khong tai duoc du lieu</td></tr>`;
+                console.error("Load employees failed:", error);
+                tableBody.innerHTML = `<tr><td colspan="8" class="text-center text-danger">Khong tai duoc du lieu</td></tr>`;
             }
         }
 
@@ -758,52 +766,61 @@
             }
 
             const keyword = getValue("searchInput");
-            const code = getValue("studentCodeFilter");
-            const fullname = getValue("studentNameFilter");
+            const code = getValue("employeeCodeFilter");
+            const fullname = getValue("employeeNameFilter");
             const gender = getValue("genderFilter");
-            const address = getValue("addressYearFilter");
-            const status = getValue("statusFilter");
+            const degree = getValue("degreeFilter");
+            const contractType = getValue("contractTypeFilter");
 
-            state.filteredStudents = state.students.filter(student => {
-                const searchable = [student.code, student.fullname, student.gender, student.address, student.status]
+            state.filteredEmployees = state.employees.filter(employee => {
+                const searchable = [
+                    employee.code,
+                    employee.fullName,
+                    employee.gender,
+                    employee.email,
+                    employee.academicTitle,
+                    employee.academicDegree,
+                    employee.contractType
+                ]
                     .map(normalize)
                     .join(" ");
 
                 return (!keyword || searchable.includes(normalize(keyword)))
-                    && (!code || normalize(student.code).includes(normalize(code)))
-                    && (!fullname || normalize(student.fullname).includes(normalize(fullname)))
-                    && (!gender || genderMatches(student.gender, gender))
-                    && (!address || normalize(student.address).includes(normalize(address)))
-                    && (!status || canonicalStatus(student.status) === status);
+                    && (!code || normalize(employee.code).includes(normalize(code)))
+                    && (!fullname || normalize(employee.fullName).includes(normalize(fullname)))
+                    && (!gender || genderMatches(employee.gender, gender))
+                    && (!degree || academicDegreeMatches(employee.academicDegree, degree))
+                    && (!contractType || contractTypeMatches(employee.contractType, contractType));
             });
 
-            renderStudents();
+            renderEmployees();
             renderPagination();
         }
 
-        function renderStudents() {
-            const tableBody = document.getElementById("StudentTable");
+        function renderEmployees() {
+            const tableBody = document.getElementById("employeesTableBody");
             const start = state.page * state.size;
-            const pageItems = state.filteredStudents.slice(start, start + state.size);
+            const pageItems = state.filteredEmployees.slice(start, start + state.size);
 
             if (pageItems.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="7" class="text-center">Khong co du lieu</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="8" class="text-center">Khong co du lieu</td></tr>`;
                 return;
             }
 
-            tableBody.innerHTML = pageItems.map(student => `
+            tableBody.innerHTML = pageItems.map(employee => `
                 <tr>
-                    <td>${escapeHtml(student.code)}</td>
-                    <td>${escapeHtml(student.fullname)}</td>
-                    <td>${escapeHtml(student.gender)}</td>
-                    <td>${formatDate(student.date_of_birth)}</td>
-                    <td>${escapeHtml(student.address)}</td>
-                    <td>${formatStatus(student.status)}</td>
+                    <td>${escapeHtml(employee.code)}</td>
+                    <td>${escapeHtml(employee.fullName)}</td>
+                    <td>${escapeHtml(formatGender(employee.gender))}</td>
+                    <td>${escapeHtml(employee.email)}</td>
+                    <td>${escapeHtml(formatAcademicTitle(employee.academicTitle))}</td>
+                    <td>${escapeHtml(formatAcademicDegree(employee.academicDegree))}</td>
+                    <td>${formatStatus(employee.isActive)}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="editStudentById('${student.id}')">
+                        <button class="btn btn-warning btn-sm" onclick="editEmployeeById('${employee.id}')">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteStudent('${student.id}')">
+                        <button class="btn btn-danger btn-sm" onclick="deleteEmployee('${employee.id}')">
                             <i class="fa fa-trash"></i>
                         </button>
                     </td>
@@ -813,7 +830,7 @@
 
         function renderPagination() {
             const pagination = document.getElementById("pagination");
-            const totalPages = Math.max(Math.ceil(state.filteredStudents.length / state.size), 1);
+            const totalPages = Math.max(Math.ceil(state.filteredEmployees.length / state.size), 1);
 
             if (state.page >= totalPages) {
                 state.page = totalPages - 1;
@@ -842,156 +859,163 @@
         }
 
         function changePage(page) {
-            const totalPages = Math.max(Math.ceil(state.filteredStudents.length / state.size), 1);
+            const totalPages = Math.max(Math.ceil(state.filteredEmployees.length / state.size), 1);
             if (page < 0 || page >= totalPages) return;
 
             state.page = page;
-            renderStudents();
+            renderEmployees();
             renderPagination();
         }
 
         function updateOverview() {
-            document.getElementById("totalCourses").innerText = state.students.length;
-            document.getElementById("totalClasses").innerText = countByStatus("graduated");
-            document.getElementById("activeClasses").innerText = countByStatus("studying");
-            document.getElementById("inactiveClasses").innerText = countByStatus("suspended");
+            document.getElementById("totalEmployees").innerText = state.employees.length;
+            document.getElementById("totalFullTimeEmployees").innerText = countByContractType("full_time");
+            document.getElementById("totalPartTimeEmployees").innerText = countByContractType("part_time");
+            document.getElementById("inactiveEmployees").innerText = state.employees.filter(employee => !employee.isActive).length;
         }
 
-        function countByStatus(status) {
-            return state.students.filter(student => canonicalStatus(student.status) === status).length;
+        function countByContractType(contractType) {
+            return state.employees.filter(employee => contractTypeMatches(employee.contractType, contractType)).length;
         }
 
         // Add
         function openAddModal() {
-            document.getElementById("modalTitle").innerText = "Thêm sinh viên";
+            document.getElementById("modalTitle").innerText = "Thêm giảng viên";
             document.getElementById("studentId").value = "";
             document.getElementById("code").value = "";
             document.getElementById("fullname").value = "";
             document.getElementById("gender").value = "Nam";
-            document.getElementById("date_of_birth").value = "";
-            document.getElementById("address").value = "";
-            document.getElementById("status").value = "studying";
-            getStudentModal().show();
+            document.getElementById("email").value = "";
+            document.getElementById("academicTitle").value = "lecturer";
+            document.getElementById("degree").value = "bachelor";
+            document.getElementById("contractType").value = "full_time";
+            getEmployeeModal().show();
         }
 
-        function editStudentById(id) {
-            const student = state.students.find(item => item.id === id);
-            if (student) {
-                editStudent(student);
+        function editEmployeeById(id) {
+            const employee = state.employees.find(item => String(item.id) === String(id));
+            if (employee) {
+                editEmployee(employee);
             }
         }
 
         // Edit
-        function editStudent(s) {
-            document.getElementById("modalTitle").innerText = "Sửa sinh viên";
+        function editEmployee(s) {
+            document.getElementById("modalTitle").innerText = "Sửa giảng viên";
             document.getElementById("studentId").value = s.id;
             document.getElementById("code").value = s.code;
-            document.getElementById("fullname").value = s.fullname;
+            document.getElementById("fullname").value = s.fullName || "";
             document.getElementById("gender").value = s.gender;
-            document.getElementById("date_of_birth").value = toDateInput(s.date_of_birth);
-            document.getElementById("address").value = s.address || "";
-            document.getElementById("status").value = canonicalStatus(s.status) || "studying";
+            document.getElementById("email").value = s.email || "";
+            document.getElementById("academicTitle").value = s.academicTitle || "lecturer";
+            document.getElementById("degree").value = canonicalAcademicDegree(s.academicDegree) || "bachelor";
+            document.getElementById("contractType").value = canonicalContractType(s.contractType) || "full_time";
 
-            getStudentModal().show();
+            getEmployeeModal().show();
         }
 
         // Save (Add + Update)
         async function saveStudent() {
             const id = document.getElementById("studentId").value;
 
-            const student = {
+            const employee = {
                 code: getValue("code"),
-                fullname: getValue("fullname"),
+                fullName: getValue("fullname"),
                 gender: getValue("gender"),
-                date_of_birth: toApiDateTime(getValue("date_of_birth")),
-                address: getValue("address"),
-                status: getValue("status")
+                email: getValue("email"),
+                academicTitle: getValue("academicTitle"),
+                academicDegree: getValue("degree"),
+                contractType: getValue("contractType"),
+                isActive: true
             };
 
-            if (!student.code || !student.fullname) {
-                alert("Vui long nhap ma sinh vien va ho ten");
+            if (!employee.code || !employee.fullName) {
+                alert("Vui long nhap ma giang vien va ho ten");
                 return;
             }
 
-            if (id) {
-                // UPDATE
-                const res = await fetch(API_URL + "/" + id, {
-                    method: "PUT",
+            try {
+                const res = await fetch(id ? `${API_URL}/${id}` : API_URL, {
+                    method: id ? "PUT" : "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(student)
+                    body: JSON.stringify(employee)
                 });
+
                 if (!res.ok) {
-                    alert("Luu sinh vien that bai");
-                    return;
+                    const message = await res.text();
+                    throw new Error(message || `HTTP ${res.status}`);
                 }
-            } else {
-                // CREATE
-                const res = await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(student)
-                });
-                if (!res.ok) {
-                    alert("Luu sinh vien that bai");
-                    return;
-                }
+            } catch (error) {
+                console.error("Save employee failed:", error);
+                alert("Luu giang vien that bai. Vui long kiem tra lai du lieu hoac API.");
+                return;
             }
 
-            getStudentModal().hide();
-            await loadStudents();
+            closeEmployeeModal();
+            await loadEmployees();
         }
 
         // Delete
-        async function deleteStudent(id) {
-            if (!confirm("Bạn có chắc muốn xóa?")) return;
+        async function deleteEmployee(id) {
+            if (!confirm("Ban co chac muon xoa?")) return;
 
-            const res = await fetch(API_URL + "/" + id, {
-                method: "DELETE"
-            });
-            if (!res.ok) {
-                alert("Xoa sinh vien that bai");
+            try {
+                const res = await fetch(API_URL + "/" + id, {
+                    method: "DELETE"
+                });
+                if (!res.ok) {
+                    const message = await res.text();
+                    throw new Error(message || `HTTP ${res.status}`);
+                }
+            } catch (error) {
+                console.error("Delete employee failed:", error);
+                alert("Xoa giang vien that bai. Vui long kiem tra lai API.");
                 return;
             }
 
-            await loadStudents();
+            await loadEmployees();
         }
 
-        function getStudentModal() {
-            return bootstrap.Modal.getOrCreateInstance(document.getElementById("studentModal"));
+        function getEmployeeModal() {
+            const modalElement = document.getElementById("studentModal");
+            if (window.bootstrap?.Modal) {
+                return bootstrap.Modal.getOrCreateInstance(modalElement);
+            }
+
+            return {
+                show() {
+                    modalElement.classList.add("show");
+                    modalElement.style.display = "block";
+                    modalElement.removeAttribute("aria-hidden");
+                    document.body.classList.add("modal-open");
+                    ensureModalBackdrop();
+                },
+                hide() {
+                    modalElement.classList.remove("show");
+                    modalElement.style.display = "none";
+                    modalElement.setAttribute("aria-hidden", "true");
+                    document.body.classList.remove("modal-open");
+                    document.getElementById("employeeModalBackdrop")?.remove();
+                }
+            };
+        }
+
+        function closeEmployeeModal() {
+            getEmployeeModal().hide();
+        }
+
+        function ensureModalBackdrop() {
+            if (document.getElementById("employeeModalBackdrop")) return;
+
+            const backdrop = document.createElement("div");
+            backdrop.id = "employeeModalBackdrop";
+            backdrop.className = "modal-backdrop fade show";
+            backdrop.onclick = closeEmployeeModal;
+            document.body.appendChild(backdrop);
         }
 
         function getValue(id) {
             return document.getElementById(id)?.value.trim() || "";
-        }
-
-        function formatDate(date) {
-            return date ? new Date(date).toLocaleDateString("vi-VN") : "";
-        }
-
-        function toDateInput(date) {
-            return date ? String(date).slice(0, 10) : "";
-        }
-
-        function toApiDateTime(date) {
-            return date ? `${date}T00:00:00` : null;
-        }
-
-        function formatStatus(status) {
-            const labels = {
-                studying: "Còn đang học",
-                graduated: "Đã tốt nghiệp",
-                suspended: "Bị đình chỉ"
-            };
-            return escapeHtml(labels[canonicalStatus(status)] || status);
-        }
-
-        function canonicalStatus(status) {
-            const value = normalize(status);
-            if (!value) return "";
-            if (value === "studying" || value.includes("dang hoc") || value.includes("con dang hoc")) return "studying";
-            if (value === "graduated" || value.includes("tot nghiep")) return "graduated";
-            if (value === "suspended" || value.includes("dinh chi")) return "suspended";
-            return value;
         }
 
         function genderMatches(currentGender, filterGender) {
@@ -1013,8 +1037,91 @@
                 .replaceAll("'", "&#039;");
         }
 
+        function formatStatus(isActive) {
+            return isActive
+                ? '<span class="badge text-bg-success">Dang lam viec</span>'
+                : '<span class="badge text-bg-secondary">Da nghi viec</span>';
+        }
+
+        function formatAcademicDegree(degree) {
+            const labels = {
+                bachelor: "Cử nhân",
+                master: "Thạc sĩ",
+                doctor: "Tiến sĩ"
+            };
+            return labels[canonicalAcademicDegree(degree)] || degree || "";
+        }
+
+        function formatAcademicTitle(title) {
+            const labels = {
+                lecturer: "Giảng viên",
+                // associate_professor: "Trợ giảng",
+                // professor: "Giáo vụ Khoa",
+                teaching_assistant: "Trợ giảng",
+                head_of_department: "Trưởng bộ môn",
+                faculty_advisor: "Giáo vụ Khoa"
+            };
+            return labels[normalize(title)] || title || "";
+        }
+
+        function formatGender(gender) {
+            const value = normalize(gender);
+            if (value === "nu" || value === "female") return "Nữ";
+            if (value === "nam" || value === "male") return "Nam";
+            return gender || "";
+        }
+
+        function contractTypeMatches(currentType, filterType) {
+            const type = canonicalContractType(currentType);
+            const filter = canonicalContractType(filterType);
+            return type === filter;
+        }
+
+        function academicDegreeMatches(currentDegree, filterDegree) {
+            return canonicalAcademicDegree(currentDegree) === canonicalAcademicDegree(filterDegree);
+        }
+
+        function canonicalAcademicDegree(degree) {
+            const value = normalize(degree).replaceAll("-", "_").replace(/\s+/g, "_");
+            const aliases = {
+                bachelor: "bachelor",
+                cu_nhan: "bachelor",
+                master: "master",
+                thac_si: "master",
+                doctor: "doctor",
+                tien_si: "doctor",
+                phd: "doctor"
+            };
+            return aliases[value] || value;
+        }
+
+        function canonicalContractType(contractType) {
+            const value = normalize(contractType).replaceAll("-", "_").replace(/\s+/g, "_");
+            const aliases = {
+                full_time: "full_time",
+                fulltime: "full_time",
+                chinh_thuc: "full_time",
+                hop_dong_chinh_thuc: "full_time",
+                nhan_vien_chinh_thuc: "full_time",
+                part_time: "part_time",
+                parttime: "part_time",
+                ban_thoi_gian: "part_time",
+                hop_dong_ban_thoi_gian: "part_time",
+                nhan_vien_ban_thoi_gian: "part_time"
+            };
+            return aliases[value] || value;
+        }
+
         // Init
-        document.addEventListener("DOMContentLoaded", loadStudents);
+        window.applyFilters = applyFilters;
+        window.changePage = changePage;
+        window.openAddModal = openAddModal;
+        window.editEmployeeById = editEmployeeById;
+        window.saveStudent = saveStudent;
+        window.deleteEmployee = deleteEmployee;
+        window.closeEmployeeModal = closeEmployeeModal;
+
+        document.addEventListener("DOMContentLoaded", loadEmployees);
     </script>
 
 </html>
